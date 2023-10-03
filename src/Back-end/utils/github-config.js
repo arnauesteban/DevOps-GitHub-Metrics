@@ -6,21 +6,6 @@ const github_data = {
     "username" : "arnauesteban"
 };
 
-export const body = {
-    "query" : `
-    query {
-        repository(owner: "arnauesteban", name: "labo-devops-g14-a23") {
-            issues(first: 4) {
-                nodes {
-                    title
-                    closedAt
-                }
-            }
-        }
-    }
-    `
-};
-
 const baseUrl = "https://api.github.com/graphql";
 
 const headers = {

@@ -5,7 +5,7 @@ import path from 'path';
 import {fileURLToPath} from 'url';
 import appRouter from './Back-end/routes/AppRouter.js';
 import acceuilRouter from './Back-end/routes/acceuilRouter.js';
-import { sendGitHubQuery, body } from './Back-end/utils/github-config.js';
+import { sendGitHubQuery } from './Back-end/utils/github-config.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -45,7 +45,20 @@ var server = app.listen(8080, async function () {
     routes();
     console.log('Node server is running...');
 
-    sendGitHubQuery(body["query"])
+
+    var query = `
+    query {
+        repository(owner: "arnauesteban", name: "labo-devops-g14-a23") {
+            issues(first: 4) {
+                nodes {
+                    title
+                    closedAt
+                }
+            }
+        }
+    }
+    `;
+    sendGitHubQuery(query)
     .then(data => {
         console.log("Réponse de l'API de GitHub:", JSON.stringify(data));
     })
