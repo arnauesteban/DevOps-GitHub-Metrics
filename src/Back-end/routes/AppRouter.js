@@ -13,4 +13,5 @@ class AppRouter{
 
 const appRouter = new AppRouter();
 appRouter.init()
+
 export default appRouter;
