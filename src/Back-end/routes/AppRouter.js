@@ -7,9 +7,16 @@ class AppRouter{
     }
 
     init(){
-        //this.appRouter.get('/log680/v1', this.getRoutes.bind(this));
+        this.appRouter.get('/', this.goToIndex.bind(this));
+    }
+
+    goToIndex(req, res)
+    {
+        res.redirect('/log680/v1/pageAcceuil');
     }
 }
+
+
 
 const appRouter = new AppRouter();
 appRouter.init()
