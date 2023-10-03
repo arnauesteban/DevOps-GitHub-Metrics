@@ -29,15 +29,9 @@ function routes(){
         saveUninitialized: false
     }));
 
-    router.get('/', (req, res, next) => {
-        res.redirect('/log680/v1/pageAcceuil');
-    });
-
     app.use('/', router);
     app.use('/', appRouter.appRouter);
     app.use('/', acceuilRouter.acceuilRouter);
-
-    
 }
 
 var server = app.listen(8080, async function () {
@@ -45,7 +39,7 @@ var server = app.listen(8080, async function () {
     routes();
     console.log('Node server is running...');
 
-
+    //-----GitHub API test----
     var query = `
     query {
         repository(owner: "arnauesteban", name: "labo-devops-g14-a23") {
@@ -65,7 +59,7 @@ var server = app.listen(8080, async function () {
     .catch(error => {
         console.error("Error:", error.message);
     });
+
+    //----------------------
     
 });
-
-//token: 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
