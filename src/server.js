@@ -6,6 +6,7 @@ import {fileURLToPath} from 'url';
 import appRouter from './Back-end/routes/AppRouter.js';
 import acceuilRouter from './Back-end/routes/acceuilRouter.js';
 import { sendGitHubQuery } from './Back-end/utils/github-config.js';
+import kanbanMetricsRouter from './Back-end/routes/kanbanMetricsRouter.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -32,6 +33,7 @@ function routes(){
     app.use('/', router);
     app.use('/', appRouter.appRouter);
     app.use('/', acceuilRouter.acceuilRouter);
+    app.use('/', kanbanMetricsRouter.kanbanMetricsRouter);
 }
 
 var server = app.listen(8080, async function () {
@@ -54,7 +56,7 @@ var server = app.listen(8080, async function () {
     `;
     sendGitHubQuery(query)
     .then(data => {
-        console.log("Réponse de l'API de GitHub:", JSON.stringify(data));
+        //console.log("Réponse de l'API de GitHub:", JSON.stringify(data));
     })
     .catch(error => {
         console.error("Error:", error.message);
