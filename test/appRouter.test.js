@@ -3,6 +3,14 @@ import express from 'express';
 import request from 'supertest';
 import AppRouter from '../src/Back-end/routes/AppRouter.js';
 
+function checkLeadTime(leadTimeObject, expectedDays, expectedHours, expectedMinutes, expectedSeconds)
+{
+  expect(leadTimeObject.days).to.equal(expectedDays);
+  expect(leadTimeObject.hours).to.equal(expectedHours);
+  expect(leadTimeObject.minutes).to.equal(expectedMinutes);
+  expect(leadTimeObject.seconds).to.equal(expectedSeconds);
+}
+
 describe('API Tests', () => {
   let app;
 
@@ -11,6 +19,8 @@ describe('API Tests', () => {
     app.use(express.json());
     app.use('/', AppRouter.appRouter);
   });
+
+  //TEST GET LEAD TIME OF AN ISSUE
 
   it('should calculate lead time for an issue', (done) => {
     request(app)
@@ -27,10 +37,7 @@ describe('API Tests', () => {
         const expectedMinutes = 23;
         const expectedSeconds = 59;
 
-        expect(leadTimeObject.days).to.equal(expectedDays);
-        expect(leadTimeObject.hours).to.equal(expectedHours);
-        expect(leadTimeObject.minutes).to.equal(expectedMinutes);
-        expect(leadTimeObject.seconds).to.equal(expectedSeconds);
+        checkLeadTime(leadTimeObject, expectedDays, expectedHours, expectedMinutes, expectedSeconds)
 
         done();
       });
@@ -50,4 +57,23 @@ describe('API Tests', () => {
         done();
       });
   });
+
+  //TEST OF LEAD TIME OF ISSUES OF A GIVEN PERIOD
+  it('should calculate lead time of issues of the 3th october 2023', (done) => {
+    request(app)
+      .get('/lead-time-period?startDate=2023-10-03&endDate=2023-10-03')
+      .expect(200)
+      .end((err, res) => {
+        if (err) return done(err);
+
+        const issuesObject = res.body;
+        
+        checkLeadTime(issuesObject[0].leadTime, 0, 20, 20, 58);
+        checkLeadTime(issuesObject[1].leadTime, 0, 5, 54, 46);
+        checkLeadTime(issuesObject[2].leadTime, 0, 0, 23, 59);
+
+        done();
+      });
+  });
+
 });

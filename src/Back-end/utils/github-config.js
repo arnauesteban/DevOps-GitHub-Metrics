@@ -3,8 +3,8 @@ import fetch from 'node-fetch'
 
 export const github_data = {
     "token" : "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",
-    "username" : "arnauesteban"
-
+    "username" : "arnauesteban",
+    "repo" : "labo-devops-g14-a23"
 };
 
 const baseUrl = "https://api.github.com/graphql";
