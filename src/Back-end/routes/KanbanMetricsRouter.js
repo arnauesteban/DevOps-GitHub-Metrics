@@ -7,7 +7,7 @@ class KanbanMetricsRouterRouter{
         this.init();
     }
 
-    async retrieveIssues(){
+    async retrieveIssues(req, res, next){
         let issues;
         let query = `
         query{
@@ -20,13 +20,13 @@ class KanbanMetricsRouterRouter{
                       ... on Issue {
                         title
                         state
+                        createdAt
+                        closedAt
                       }
                     }
                     status: fieldValueByName(name: "Status") {
                       ... on ProjectV2ItemFieldSingleSelectValue {
                         column: name
-                        updatedAt
-                        createdAt
                       }
                     }
                   }
@@ -53,6 +53,7 @@ class KanbanMetricsRouterRouter{
         await this.retrieveIssues().then((response)=>{issues = response});
         for(let i = 0; i< issues.length; i++){
             let issue = issues[i];
+            console.log(issue);
             for(let key in issue){
                 let column = "";
                 if(issue[key].column !== undefined){
@@ -63,14 +64,43 @@ class KanbanMetricsRouterRouter{
                 }
             }
         }
-        console.log(count)
+        console.log(count);
         return count;
+    }
+
+    async calculateNbIssueCompletedInTimeframe(req, res, next){
+      let count = 0
+
+      let startedDateFilter = new Date(req.query.startDate);
+      let endDateFilter = new Date(req.query.endDate);
+
+      let issues;
+      await this.retrieveIssues().then((response)=>{issues = response});
+
+      for(let i = 0; i< issues.length; i++){
+        let issue = issues[i];
+        console.log(issue);
+        for(let key in issue){
+            let startedAt = new Date(issue[key].createdAt);
+            let closedAt;
+            if(issue[key].closedAt !==null || undefined){
+              closedAt = new Date(issue[key].closedAt);
+            }
+            if(startedDateFilter <= startedAt && endDateFilter >= closedAt){
+              count++;
+            }
+        }
+      }
+      console.log(count);
+      return count;
     }
 
 
     init() {
         this.kanbanMetricsRouter.get('/log680/v1/issues/', this.retrieveIssues.bind(this));
-        this.kanbanMetricsRouter.get('/log680/v1/nbIssues/:columnName', this.calculateNbIssuesPerColumn.bind(this));
+        this.kanbanMetricsRouter.get('/log680/v1/nbIssuesCol/:columnName', this.calculateNbIssuesPerColumn.bind(this));
+        //this.kanbanMetricsRouter.post('/log680/v1/nbIssues/', this.calculateNbIssueCompletedInTimeframe.bind(this));
+        this.kanbanMetricsRouter.get('/log680/v1/nbIssues/:startDate?/:endDate?', this.calculateNbIssueCompletedInTimeframe.bind(this));
     }
 }
 
