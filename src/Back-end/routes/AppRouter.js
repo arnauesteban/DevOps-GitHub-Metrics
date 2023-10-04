@@ -11,6 +11,7 @@ class AppRouter{
         this.appRouter.get('/', this.goToIndex.bind(this));
         this.appRouter.get('/lead-time', this.getLeadTimeIssue.bind(this));
         this.appRouter.get('/lead-time-period', this.getLeadTimeIssuesByPeriod.bind(this));
+        this.appRouter.get('/pull-requests-mean', this.getMeanPullRequests.bind(this));
     }
 
     goToIndex(req, res)
@@ -18,10 +19,8 @@ class AppRouter{
         res.redirect('/log680/v1/pageAcceuil');
     }
 
-    calculateLeadTime(createdAt, closedAt)
+    calculateLeadTime(leadTimeInMilliseconds)
     {
-        var leadTimeInMilliseconds = closedAt - createdAt;
-
         // Converts leadTimeInMilliseconds into days:hours:seconds
         const seconds = Math.floor(leadTimeInMilliseconds / 1000);
         const minutes = Math.floor(seconds / 60);
@@ -75,7 +74,7 @@ class AppRouter{
             var createdAt = new Date(data.data.repository.issue.createdAt);
             var closedAt = new Date(data.data.repository.issue.closedAt);
 
-            const leadTimeObject = this.calculateLeadTime(createdAt, closedAt);
+            const leadTimeObject = this.calculateLeadTime(closedAt - createdAt);
 
             console.log("Lead time : " + leadTimeObject["days"] + "days " 
             + leadTimeObject["hours"] + "hours " + leadTimeObject["minutes"] + "min " + leadTimeObject["seconds"] + "sec");
@@ -136,7 +135,7 @@ class AppRouter{
             const issues = []
             issuesWithinRange.forEach((i) => {
                 console.log(i);
-                const leadTimeObject = this.calculateLeadTime(new Date(i.createdAt), new Date(i.closedAt));
+                const leadTimeObject = this.calculateLeadTime(new Date(i.closedAt) - new Date(i.createdAt));
                 issues.push({
                     number : i.number,
                     title : i.title,
@@ -151,6 +150,54 @@ class AppRouter{
             console.error("Error:", error.message);
         });
 
+    }
+
+    getMeanPullRequests(req, res)
+    {
+        const n = req.query.n;
+
+        var query = `
+        query {
+            repository(owner: "${github_data.username}", name: "${github_data.repo}") {
+              pullRequests(first: ${n}, states: MERGED, orderBy : {field : CREATED_AT, direction :DESC}) {
+                edges {
+                  node {
+                    createdAt
+                    mergedAt
+                  }
+                }
+              }
+            }
+          }
+        `;
+
+        sendGitHubQuery(query)
+        .then(data => {
+            console.log("Réponse de l'API de GitHub pour le lead time des issues: \n", JSON.stringify(data));
+
+            var pr = data.data.repository.pullRequests.edges;
+            console.log("pr: \n");
+            console.log(pr);
+            var sum = 0;
+            pr.forEach((i) => {
+                var duration = new Date(i.node.mergedAt) - new Date(i.node.createdAt);
+                console.log("duration: " + duration);
+                sum += duration;
+            });
+
+            console.log("Sum:" + sum);
+
+            var mean = sum / n;
+
+            //We obtain the mean separated into days, hours, minutes, seconds by reusing the function calculateLeadTime
+            var meanJson = this.calculateLeadTime(mean);
+
+            res.json(meanJson);
+
+        })
+        .catch(error => {
+            console.error("Error:", error.message);
+        });
     }
 }
 
