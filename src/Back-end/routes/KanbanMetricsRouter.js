@@ -6,7 +6,7 @@ class KanbanMetricsRouterRouter{
         this.kanbanMetricsRouter = express.Router();
         this.init();
     }
-    
+
     async retrieveIssues(){
         let issues;
         let query = `
@@ -38,7 +38,6 @@ class KanbanMetricsRouterRouter{
         await sendGitHubQuery(query)
         .then(data => {
             issues= data.data.repository.projectV2.items.nodes;
-            console.log("Réponse de l'API de GitHub:", issues);
         })
         .catch(error => {
             console.error("Error:", error.message);
