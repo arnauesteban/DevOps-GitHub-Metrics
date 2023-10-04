@@ -1,9 +1,10 @@
 // github-config.js
 import fetch from 'node-fetch'
 
-const github_data = {
+export const github_data = {
     "token" : "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",
     "username" : "arnauesteban"
+
 };
 
 const baseUrl = "https://api.github.com/graphql";
