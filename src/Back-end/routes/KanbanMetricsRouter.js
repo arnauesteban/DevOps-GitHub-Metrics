@@ -47,14 +47,18 @@ class KanbanMetricsRouterRouter{
 
     async calculateNbIssuesPerColumn(req, res, next){
         let count = 0
-        let column = req.params.column;
+        let columnName = req.params.columnName.replace(/[\u0300-\u036f]/g, '').toLowerCase().replaceAll("_"," ").replaceAll("\"", "");
         
         let issues;
         await this.retrieveIssues().then((response)=>{issues = response});
         for(let i = 0; i< issues.length; i++){
             let issue = issues[i];
             for(let key in issue){
-                if(issue[key].column === column){
+                let column = "";
+                if(issue[key].column !== undefined){
+                    column = JSON.stringify(issue[key].column).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replaceAll("_"," ").replaceAll("\"", "");
+                }
+                if(column == columnName){
                     count++;
                 }
             }
@@ -66,7 +70,7 @@ class KanbanMetricsRouterRouter{
 
     init() {
         this.kanbanMetricsRouter.get('/log680/v1/issues/', this.retrieveIssues.bind(this));
-        this.kanbanMetricsRouter.get('/log680/v1/:column/nbIssues', this.calculateNbIssuesPerColumn.bind(this));
+        this.kanbanMetricsRouter.get('/log680/v1/nbIssues/:columnName', this.calculateNbIssuesPerColumn.bind(this));
     }
 }
 
