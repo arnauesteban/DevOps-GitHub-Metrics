@@ -70,18 +70,37 @@ class KanbanMetricsRouterRouter{
 
     async calculateNbIssueCompletedInTimeframe(req, res, next){
       let count = 0
-      let columnName = req.params.columnName.replace(/[\u0300-\u036f]/g, '').toLowerCase().replaceAll("_"," ").replaceAll("\"", "");
-      
+
+      let startedDateFilter = new Date(req.query.startDate);
+      let endDateFilter = new Date(req.query.endDate);
+
       let issues;
       await this.retrieveIssues().then((response)=>{issues = response});
+
+      for(let i = 0; i< issues.length; i++){
+        let issue = issues[i];
+        console.log(issue);
+        for(let key in issue){
+            let startedAt = new Date(issue[key].createdAt);
+            let closedAt;
+            if(issue[key].closedAt !==null || undefined){
+              closedAt = new Date(issue[key].closedAt);
+            }
+            if(startedDateFilter <= startedAt && endDateFilter >= closedAt){
+              count++;
+            }
+        }
+      }
+      console.log(count);
+      return count;
     }
 
 
     init() {
         this.kanbanMetricsRouter.get('/log680/v1/issues/', this.retrieveIssues.bind(this));
-        this.kanbanMetricsRouter.get('/log680/v1/nbIssues/:columnName', this.calculateNbIssuesPerColumn.bind(this));
-        this.kanbanMetricsRouter.post('/log680/v1/nbIssues/', this.calculateNbIssueCompletedInTimeframe.bind(this));
-        this.kanbanMetricsRouter.post('/log680/v1/nbIssues/', this.calculateNbIssueCompletedInTimeframe.bind(this));
+        this.kanbanMetricsRouter.get('/log680/v1/nbIssuesCol/:columnName', this.calculateNbIssuesPerColumn.bind(this));
+        //this.kanbanMetricsRouter.post('/log680/v1/nbIssues/', this.calculateNbIssueCompletedInTimeframe.bind(this));
+        this.kanbanMetricsRouter.get('/log680/v1/nbIssues/:startDate?/:endDate?', this.calculateNbIssueCompletedInTimeframe.bind(this));
     }
 }
 
