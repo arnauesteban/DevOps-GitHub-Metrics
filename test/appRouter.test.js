@@ -1,24 +1,53 @@
+import { expect } from 'chai';
+import express from 'express';
 import request from 'supertest';
-import app from '../src/server.js';
+import AppRouter from '../src/Back-end/routes/AppRouter.js';
 
-describe('GET /lead-time', () => {
-  it('should return the lead time of the issue', async () => {
-    const response = await request(app)
-      .get('/lead-time')
-      .query({ issueId: '7' }); // issue id
+describe('API Tests', () => {
+  let app;
 
-    expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty('days');
-    expect(response.body).toHaveProperty('hours');
-    expect(response.body).toHaveProperty('minutes');
-    expect(response.body).toHaveProperty('seconds');
+  before(() => {
+    app = express();
+    app.use(express.json());
+    app.use('/', AppRouter.appRouter);
   });
 
-  it('should return an error if the issue id is not valid', async () => {
-    const response = await request(app)
-      .get('/lead-time')
-      .query({ issueId: '0' }); // Establece un issueId inválido
+  it('should calculate lead time for an issue', (done) => {
+    request(app)
+      .get('/lead-time?issueId=7')
+      .expect(200)
+      .end((err, res) => {
+        if (err) return done(err);
 
-    expect(response.status).toBe(400); // Puedes ajustar el código de estado según tu lógica de manejo de errores
+        const leadTimeObject = res.body;
+
+        // Replace these expected values with the actual expected values based on your test data
+        const expectedDays = 0;
+        const expectedHours = 0;
+        const expectedMinutes = 23;
+        const expectedSeconds = 59;
+
+        expect(leadTimeObject.days).to.equal(expectedDays);
+        expect(leadTimeObject.hours).to.equal(expectedHours);
+        expect(leadTimeObject.minutes).to.equal(expectedMinutes);
+        expect(leadTimeObject.seconds).to.equal(expectedSeconds);
+
+        done();
+      });
+  });
+
+  it('should return an error for an invalid issue number', (done) => {
+    request(app)
+      .get('/lead-time?issueId=0') // invalid issue number
+      .expect(400) // You can use an appropriate HTTP status code for this case
+      .end((err, res) => {
+        if (err) return done(err);
+
+        // Check that the response contains an error message or structure
+        // Replace with your actual error checking logic
+        expect(res.body.errors[0].type).to.equal("NOT_FOUND"); // Customize this based on your error response structure
+
+        done();
+      });
   });
 });

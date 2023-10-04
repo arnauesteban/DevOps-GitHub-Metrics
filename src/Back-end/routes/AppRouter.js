@@ -25,7 +25,7 @@ class AppRouter{
         const query = `
         query {
             repository(owner: "arnauesteban", name: "labo-devops-g14-a23") {
-              issue(number: 7) {
+              issue(number: ${issueId}) {
                 title
                 createdAt
                 closedAt
@@ -37,8 +37,15 @@ class AppRouter{
         //Calculates the lead time
         sendGitHubQuery(query)
         .then(data => {
-            console.log("Réponse de l'API de GitHub pour le lead time d'une issue:\n", JSON.stringify(data));
-            
+            console.log("Réponse de l'API de GitHub pour le lead time d'une issue ", JSON.stringify(data));
+
+            //If the issue does not exist, we return the data, which contains the error
+            if(data.data.repository.issue == null)
+            {
+                res.status(400).json(data);
+                return;
+            }
+
             var createdAt = new Date(data.data.repository.issue.createdAt);
             var closedAt = new Date(data.data.repository.issue.closedAt);
 
