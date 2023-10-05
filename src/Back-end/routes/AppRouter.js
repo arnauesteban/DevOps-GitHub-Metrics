@@ -1,6 +1,5 @@
 import express from 'express';
 import {sendGitHubQuery, github_data} from '../utils/github-config.js'
-import kanbanMetricsRouter from './kanbanMetricsRouter.js';
 
 class AppRouter{
     constructor(){
@@ -9,27 +8,145 @@ class AppRouter{
     }
 
     init(){
+        
         this.appRouter.get('/', this.goToIndex.bind(this));
+
+        /**
+         * @swagger
+         * /lead-time
+         *   get:
+         *     description: Obtenir le lead time d'une tâche
+         *     parameters:
+         *       - name: issueId
+         *         in: query
+         *         description: L'identifiant de la tâche.
+         *         required: true
+         *         schema:
+         *           type: integer
+         *     responses:
+         *       200:
+         *         description: Réponse réussie.
+         *       404:
+         *         description: Issue n'existe pas.
+         */
         this.appRouter.get('/lead-time', this.getLeadTimeIssue.bind(this));
+
+
+        /**
+         * @swagger
+         * /lead-time-period:
+         *   get:
+         *     description: Obtenir le lead time d'une tâche dans une période donnée
+         *     parameters:
+         *       - name: startDate
+         *         in: query
+         *         description: La date minimale.
+         *         required: true
+         *         schema:
+         *           type: string
+         *           format: date
+         *       - name: endDate
+         *         in: query
+         *         description: La date finale.
+         *         required: true
+         *         schema:
+         *           type: string
+         *           format: date
+         *     responses:
+         *       200:
+         *         description: Réponse réussie.
+         */
         this.appRouter.get('/lead-time-period', this.getLeadTimeIssuesByPeriod.bind(this));
+
+
+        /**
+         * @swagger
+         * /pull-requests-mean:
+         *   get:
+         *     description: Obtenir la moyenne du lead time des dernières 'n' pull requests
+         *     parameters:
+         *       - name: n
+         *         in: query
+         *         description: Numéro de pull requests.
+         *         required: true
+         *         schema:
+         *           type: integer
+         *     responses:
+         *       200:
+         *         description: Réponse réussie.
+         */
         this.appRouter.get('/pull-requests-mean', this.getMeanPullRequests.bind(this));
 
-        //GET /lead-time-pull-request that returns the lead time of a pull request given
+
+
+        /**
+         * @swagger
+         * /lead-time-pull-request:
+         *   get:
+         *     description: Obtenir le lead time d'une pull request donnée
+         *     parameters:
+         *       - name: id
+         *         in: query
+         *         description: Identifiant du pull request.
+         *         required: true
+         *         schema:
+         *           type: integer
+         *     responses:
+         *       200:
+         *         description: Réponse réussie.
+         *       404:
+         *         description: La pull request n'existe pas.
+         */
         this.appRouter.get('/lead-time-pull-request', this.getLeadTimePullRequest.bind(this));
 
-        //GET /pull-requests-authors that returns the total number of pull requests (max. the last 100),
-        // the number of pull requests of every author and its percentage of pull requests compared to the total number.
+
+
+        /**
+         * @swagger
+         * /pull-requests-authors:
+         *   get:
+         *     description: Obtenir le nombre total de pull requests (max. les 1000 derniers), le nombre de pull requests de chaque auteur et son pourcentage de pull requests en fonction du nombre total.
+         *     responses:
+         *       200:
+         *         description: Réponse réussie.
+         */
         this.appRouter.get('/pull-requests-authors', this.getPullRequestsByAuthor.bind(this));
 
-        //GET /pull-requests-active-percentage that returns the percentage of pull requests that are open
-        //compared to the total number of pull requests.
+
+
+        /**
+         * @swagger
+         * /pull-requests-open-percentage:
+         *   get:
+         *     description: Obtenir le pourcentage de pull requests qui sont ouvertes comparé au nombre total de pull requests.
+         *     responses:
+         *       200:
+         *         description: Réponse réussie.
+         */
         this.appRouter.get('/pull-requests-open-percentage', this.getPullRequestsOpenPercentage.bind(this));
 
-        //GET /pull-requests-successful-percentage that returns the percentage of pull requests that haven been merged
-        //compared to the total number of pull requests that have been closed (with merge or not).
+
+
+        /**
+         * @swagger
+         * /pull-requests-successful-percentage:
+         *   get:
+         *     description: Obtenir le pourcentage de pull requests qui ont été "merged" en fonction du nombre total de pull requests qui ont été fermés (avec merge ou pas)
+         *     responses:
+         *       200:
+         *         description: Réponse réussie.
+         */
         this.appRouter.get('/pull-requests-successful-percentage', this.getPullRequestsSuccessfulPercentage.bind(this));
 
-        //GET /metric/snapshot to get the number of tasks on each column
+
+        /**
+         * @swagger
+         * /metric/snapshot:
+         *   get:
+         *     description: Obtenir un snapshot de l'état actuel tu tableau Kanban (nombre de tâches pour chaque colonne)
+         *       200:
+         *         description: Réponse réussie.
+         */
         this.appRouter.get('/metric/snapshot', this.getSnapshot.bind(this));
     }
 
@@ -114,7 +231,7 @@ class AppRouter{
         //Gets the start and close time of the issue
         const query = `
         query {
-            repository(owner: "arnauesteban", name: "labo-devops-g14-a23") {
+            repository(owner: "${github_data.username}", name: "${github_data.repo}") {
               issue(number: ${issueId}) {
                 title
                 createdAt
@@ -132,7 +249,14 @@ class AppRouter{
             //If the issue does not exist, we return the data, which contains the error
             if(data.data.repository.issue == null)
             {
-                res.status(400).json(data);
+                res.status(404).json(data);
+                return;
+            }
+
+            //Checks if the issue is closed
+            if(data.data.repository.issue.closedAt == null)
+            {
+                res.status(405).json(data);
                 return;
             }
 
@@ -425,7 +549,7 @@ class AppRouter{
             //If the pull request does not exist, we return the data, which contains the error
             if(data.data.repository.pullRequest == null)
             {
-                res.status(400).json(data);
+                res.status(404).json(data);
                 return;
             }
 
