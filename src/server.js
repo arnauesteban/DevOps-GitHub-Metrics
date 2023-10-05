@@ -7,6 +7,8 @@ import appRouter from './Back-end/routes/AppRouter.js';
 import acceuilRouter from './Back-end/routes/acceuilRouter.js';
 import { sendGitHubQuery } from './Back-end/utils/github-config.js';
 import kanbanMetricsRouter from './Back-end/routes/kanbanMetricsRouter.js';
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './Back-end/utils/swaggerConfig.js'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -21,6 +23,9 @@ app.use("/src/", express.static(__dirname));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Route pour la documentation générée par Swagger.
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 function routes(){
     let router = express.Router();
