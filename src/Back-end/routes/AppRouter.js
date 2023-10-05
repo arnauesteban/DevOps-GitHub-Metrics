@@ -18,8 +18,12 @@ class AppRouter{
         this.appRouter.get('/pull-requests-authors', this.getPullRequestsByAuthor.bind(this));
 
         //GET /pull-requests-active-percentage that returns the percentage of pull requests that are open
-        //compared to the total number of pull requests. Based on the last 100 pull requests.
-        this.appRouter.get('/pull-requests-open-percentage', this.getPullRequestsActivePercentage.bind(this));
+        //compared to the total number of pull requests.
+        this.appRouter.get('/pull-requests-open-percentage', this.getPullRequestsOpenPercentage.bind(this));
+
+        //GET /pull-requests-successful-percentage that returns the percentage of pull requests that haven been merged
+        //compared to the total number of pull requests that have been closed (with merge or not).
+        this.appRouter.get('/pull-requests-successful-percentage', this.getPullRequestsSuccessfulPercentage.bind(this));
     }
 
     goToIndex(req, res)
@@ -272,7 +276,7 @@ class AppRouter{
     }
 
 
-    getPullRequestsActivePercentage(req, res)
+    getPullRequestsOpenPercentage(req, res)
     {
         var query = `
         query {
@@ -308,6 +312,46 @@ class AppRouter{
         });
 
     }
+
+
+    getPullRequestsSuccessfulPercentage(req, res)
+    {
+        var query = `
+        query {
+            repository(owner: "${github_data.username}", name: "${github_data.repo}") {
+              successfulPullRequests: pullRequests(states: [MERGED]) {
+                totalCount
+              }
+              totalClosedPullRequests: pullRequests(states: [CLOSED, MERGED]) {
+                totalCount
+              }
+            }
+          }
+        `;
+        
+        sendGitHubQuery(query)
+        .then(data => {
+            console.log("Réponse de l'API de GitHub pour le lead time des issues: \n", JSON.stringify(data));
+            
+            const response = {};
+
+            const successfulPullRequests = data.data.repository.successfulPullRequests.totalCount;
+            const totalClosedPullRequests = data.data.repository.totalClosedPullRequests.totalCount;
+
+            response.successfulPullRequests = successfulPullRequests;
+            response.totalClosedPullRequests = totalClosedPullRequests;
+            response.successfulPullRequestsPercentage = (successfulPullRequests / totalClosedPullRequests) * 100;
+
+            res.json(response);
+
+        })
+        .catch(error => {
+            console.error("Error:", error.message);
+        });
+
+    }
+
+
 }
 
 const appRouter = new AppRouter();
