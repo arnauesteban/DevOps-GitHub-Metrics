@@ -21,8 +21,12 @@ class AppRouter{
         this.appRouter.get('/pull-requests-authors', this.getPullRequestsByAuthor.bind(this));
 
         //GET /pull-requests-active-percentage that returns the percentage of pull requests that are open
-        //compared to the total number of pull requests. Based on the last 100 pull requests.
-        this.appRouter.get('/pull-requests-open-percentage', this.getPullRequestsActivePercentage.bind(this));
+        //compared to the total number of pull requests.
+        this.appRouter.get('/pull-requests-open-percentage', this.getPullRequestsOpenPercentage.bind(this));
+
+        //GET /pull-requests-successful-percentage that returns the percentage of pull requests that haven been merged
+        //compared to the total number of pull requests that have been closed (with merge or not).
+        this.appRouter.get('/pull-requests-successful-percentage', this.getPullRequestsSuccessfulPercentage.bind(this));
     }
 
     goToIndex(req, res)
@@ -275,7 +279,7 @@ class AppRouter{
     }
 
 
-    getPullRequestsActivePercentage(req, res)
+    getPullRequestsOpenPercentage(req, res)
     {
         var query = `
         query {
