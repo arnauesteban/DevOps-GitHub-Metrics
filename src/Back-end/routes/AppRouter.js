@@ -1,5 +1,6 @@
 import express from 'express';
 import {sendGitHubQuery, github_data} from '../utils/github-config.js'
+import kanbanMetricsRouter from './kanbanMetricsRouter.js';
 
 class AppRouter{
     constructor(){
@@ -27,6 +28,55 @@ class AppRouter{
         //GET /pull-requests-successful-percentage that returns the percentage of pull requests that haven been merged
         //compared to the total number of pull requests that have been closed (with merge or not).
         this.appRouter.get('/pull-requests-successful-percentage', this.getPullRequestsSuccessfulPercentage.bind(this));
+
+        //GET /metric/snapshot to get the number of tasks on each column
+        this.appRouter.get('/metric/snapshot', this.getSnapshot.bind(this));
+    }
+
+    async getSnapshot(req, res)
+    {
+        var query = `
+        query{
+            repository(owner: "arnauesteban", name: "labo-devops-g14-a23") {
+              projectV2(number: 2) {
+                items(first: 100) {
+                  nodes {
+                    status: fieldValueByName(name: "Status") {
+                      ... on ProjectV2ItemFieldSingleSelectValue {
+                        column: name
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        `;
+
+        sendGitHubQuery(query)
+        .then(data => {
+            console.log("Réponse de l'API de GitHub pour le lead time d'une issue ", JSON.stringify(data));
+
+            var snapshot = {};
+            data.data.repository.projectV2.items.nodes.forEach((c) => {
+                var columnName = c.status.column;
+                if(snapshot[columnName])
+                {
+                    snapshot[columnName]++;
+                }
+                else
+                {
+                    snapshot[columnName] = 1;
+                }
+            });
+            
+            res.json(snapshot);
+
+        })
+        .catch(error => {
+            console.error("Error:", error.message);
+        });
+
     }
 
     goToIndex(req, res)
