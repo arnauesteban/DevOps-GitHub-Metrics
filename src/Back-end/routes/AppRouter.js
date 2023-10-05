@@ -12,6 +12,7 @@ class AppRouter{
         this.appRouter.get('/lead-time', this.getLeadTimeIssue.bind(this));
         this.appRouter.get('/lead-time-period', this.getLeadTimeIssuesByPeriod.bind(this));
         this.appRouter.get('/pull-requests-mean', this.getMeanPullRequests.bind(this));
+        this.appRouter.get('/pull-requests-authors', this.getPullRequestsByAuthor.bind(this));
     }
 
     goToIndex(req, res)
@@ -193,6 +194,69 @@ class AppRouter{
             var meanJson = this.calculateLeadTime(mean);
 
             res.json(meanJson);
+
+        })
+        .catch(error => {
+            console.error("Error:", error.message);
+        });
+    }
+
+
+    getPullRequestsByAuthor(req, res)
+    {
+        var query = `
+        query {
+            repository(owner: "${github_data.username}", name: "${github_data.repo}") {
+              pullRequests(first: 100, states: [OPEN, CLOSED, MERGED]) {
+                totalCount,
+                nodes {
+                  author {
+                    login
+                  }
+                }
+              }
+            }
+          }
+        `;
+
+        sendGitHubQuery(query)
+        .then(data => {
+            console.log("Réponse de l'API de GitHub pour le lead time des issues: \n", JSON.stringify(data));
+            
+            // Create an object to track the number of Pull Requests per author
+            const prsByAuthor = {};
+
+            // Calculate the total number of Pull Requests and the number of Pull Requests per author
+            var totalPRs = data.data.repository.pullRequests.totalCount;
+            data.data.repository.pullRequests.nodes.forEach((pr) => {
+                const authorLogin = pr.author.login;
+                if (prsByAuthor[authorLogin]) {
+                    prsByAuthor[authorLogin]++;
+                } else {
+                    prsByAuthor[authorLogin] = 1;
+                }
+            });
+
+            // Calculate the percentage of Pull Requests per author relative to the total
+            const response = {
+                totalPullRequests: totalPRs,
+                authors: [],
+            };
+
+            for (const authorLogin in prsByAuthor) {
+                const prCount = prsByAuthor[authorLogin];
+                const percentage = (prCount / totalPRs) * 100;
+                response.authors.push({
+                    author: authorLogin,
+                    pullRequestCount: prCount,
+                    percentage: percentage.toFixed(2), // Round to two decimal places
+                });
+            }
+
+            console.log("Response: \n");
+            console.log(response);
+
+            res.json(response);
 
         })
         .catch(error => {
