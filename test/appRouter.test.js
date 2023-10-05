@@ -128,4 +128,64 @@ describe('API Tests', () => {
       });
   });
 
+
+
+  //TEST INVALID REQUESTS --> SEND 400 ERROR
+  it('should return a 400 ERROR code /lead-time?issueId=', (done) => {
+    request(app)
+      .get('/lead-time?issueId=') // invalid issue number
+      .expect(400) // You can use an appropriate HTTP status code for this case
+      .end((err, res) => {
+        if (err) return done(err);
+
+        // Check that the response contains an error message or structure
+        // Replace with your actual error checking logic
+        expect(res.body).to.equal("ERROR"); // Customize this based on your error response structure
+
+        done();
+      });
+  });
+  it('should return a 400 ERROR code /lead-time-pull-request?id=', (done) => {
+    request(app)
+      .get('/lead-time-pull-request?id=') // invalid issue number
+      .expect(400) // You can use an appropriate HTTP status code for this case
+      .end((err, res) => {
+        if (err) return done(err);
+
+        // Check that the response contains an error message or structure
+        // Replace with your actual error checking logic
+        expect(res.body).to.equal("ERROR"); // Customize this based on your error response structure
+
+        done();
+      });
+  });
+  it('should return a 400 ERROR code /lead-time-period?startDate=2023-08-01&endDate=', (done) => {
+    request(app)
+      .get('/lead-time-period?startDate=2023-08-01&endDate=') // invalid issue number
+      .expect(400) // You can use an appropriate HTTP status code for this case
+      .end((err, res) => {
+        if (err) return done(err);
+
+        // Check that the response contains an error message or structure
+        // Replace with your actual error checking logic
+        expect(res.body).to.equal("ERROR"); // Customize this based on your error response structure
+
+        done();
+      });
+  });
+  it('should return a 400 ERROR code /lead-time-pull-request?id=', (done) => {
+    request(app)
+      .get('/lead-time-pull-request?id=') // invalid issue number
+      .expect(400) // You can use an appropriate HTTP status code for this case
+      .end((err, res) => {
+        if (err) return done(err);
+
+        // Check that the response contains an error message or structure
+        // Replace with your actual error checking logic
+        expect(res.body).to.equal("ERROR"); // Customize this based on your error response structure
+
+        done();
+      });
+  });
+
 });
