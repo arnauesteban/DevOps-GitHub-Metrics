@@ -192,6 +192,7 @@ class AppRouter{
         })
         .catch(error => {
             console.error("Error:", error.message);
+            res.status(400).json("ERROR");
         });
 
     }
@@ -273,6 +274,7 @@ class AppRouter{
         })
         .catch(error => {
             console.error("Error:", error.message);
+            res.status(400).json("ERROR");
         });
 
     }
@@ -280,6 +282,14 @@ class AppRouter{
 
     getLeadTimeIssuesByPeriod(req, res)
     {
+        console.log("FEEECHAAASSSS\n");
+        console.log(req.query.startDate);
+        console.log(req.query.endDate);
+        if(req.query.startDate == "" || req.query.endDate == "")
+        {
+            res.status(400).json("ERROR");
+            return;
+        }
         
         //Gets the issues in ascending order based on its closing date
         const query = `
@@ -337,6 +347,7 @@ class AppRouter{
         })
         .catch(error => {
             console.error("Error:", error.message);
+            res.status(400).json("ERROR");
         });
 
     }
@@ -386,6 +397,7 @@ class AppRouter{
         })
         .catch(error => {
             console.error("Error:", error.message);
+            res.status(400).json("ERROR");
         });
     }
 
@@ -449,6 +461,7 @@ class AppRouter{
         })
         .catch(error => {
             console.error("Error:", error.message);
+            res.status(400).json("ERROR");
         });
     }
 
@@ -486,6 +499,7 @@ class AppRouter{
         })
         .catch(error => {
             console.error("Error:", error.message);
+            res.status(400).json("ERROR");
         });
 
     }
@@ -523,6 +537,7 @@ class AppRouter{
         })
         .catch(error => {
             console.error("Error:", error.message);
+            res.status(400).json("ERROR");
         });
     }
 
@@ -563,6 +578,7 @@ class AppRouter{
         })
         .catch(error => {
             console.error("Error:", error.message);
+            res.status(400).json("ERROR");
         });
     }
 }
