@@ -1,5 +1,6 @@
 import express from 'express';
 import { sendGitHubQuery } from '../utils/github-config.js';
+import { github_data } from '../utils/github-config.js';
 
 class KanbanMetricsRouterRouter{
     constructor(){
@@ -11,7 +12,7 @@ class KanbanMetricsRouterRouter{
         let issues;
         let query = `
         query{
-            repository(owner: "arnauesteban", name: "labo-devops-g14-a23") {
+            repository(owner: "${github_data.username}", name: "${github_data.repo}") {
               projectV2(number: 2) {
                 title
                 items(first: 100) {
