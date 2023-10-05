@@ -38,6 +38,7 @@ class KanbanMetricsRouterRouter{
         await sendGitHubQuery(query)
         .then(data => {
             issues= data.data.repository.projectV2.items.nodes;
+            res.json(issues);
         })
         .catch(error => {
             console.error("Error:", error.message);
@@ -53,7 +54,6 @@ class KanbanMetricsRouterRouter{
         await this.retrieveIssues().then((response)=>{issues = response});
         for(let i = 0; i< issues.length; i++){
             let issue = issues[i];
-            console.log(issue);
             for(let key in issue){
                 let column = "";
                 if(issue[key].column !== undefined){
@@ -64,8 +64,7 @@ class KanbanMetricsRouterRouter{
                 }
             }
         }
-        console.log(count);
-        return count;
+        res.json("{ nombre de issues dans la colonne " + columnName+": "+ count+ "}");
     }
 
     async calculateNbIssueCompletedInTimeframe(req, res, next){
@@ -80,18 +79,20 @@ class KanbanMetricsRouterRouter{
       for(let i = 0; i< issues.length; i++){
         let issue = issues[i];
         console.log(issue);
-        for(let key in issue){
-            let startedAt = new Date(issue[key].createdAt);
-            let closedAt;
-            if(issue[key].closedAt !==null || undefined){
-              closedAt = new Date(issue[key].closedAt);
-            }
-            if(startedDateFilter <= startedAt && endDateFilter >= closedAt){
-              count++;
-            }
+        let startedAt = new Date(issue.content.createdAt);
+        let closedAt;
+        if(issue.content.closedAt !==null || undefined){
+          closedAt = new Date(issue.content.closedAt);
+        }
+        console.log(startedDateFilter + " vs " +startedAt);
+        console.log(endDateFilter +" vs "+  closedAt)    
+        if(startedDateFilter <= startedAt && endDateFilter >= closedAt){
+          console.log(startedDateFilter + " vs " +startedAt);
+          console.log(endDateFilter +" vs "+  closedAt)    
+          count++;
         }
       }
-      console.log(count);
+      res.json("{ nombre de issues complétée durant la période: " + startedDateFilter+" et "+ endDateFilter +": " +count+ "}");
       return count;
     }
 
