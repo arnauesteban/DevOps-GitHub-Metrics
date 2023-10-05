@@ -13,6 +13,9 @@ class AppRouter{
         this.appRouter.get('/lead-time-period', this.getLeadTimeIssuesByPeriod.bind(this));
         this.appRouter.get('/pull-requests-mean', this.getMeanPullRequests.bind(this));
 
+        //GET /lead-time-pull-request that returns the lead time of a pull request given
+        this.appRouter.get('/lead-time-pull-request', this.getLeadTimePullRequest.bind(this));
+
         //GET /pull-requests-authors that returns the total number of pull requests (max. the last 100),
         // the number of pull requests of every author and its percentage of pull requests compared to the total number.
         this.appRouter.get('/pull-requests-authors', this.getPullRequestsByAuthor.bind(this));
@@ -307,6 +310,82 @@ class AppRouter{
             console.error("Error:", error.message);
         });
 
+    }
+
+    getPullRequestsSuccessfulPercentage(req, res)
+    {
+        var query = `
+        query {
+            repository(owner: "${github_data.username}", name: "${github_data.repo}") {
+              successfulPullRequests: pullRequests(states: [MERGED]) {
+                totalCount
+              }
+              totalClosedPullRequests: pullRequests(states: [CLOSED, MERGED]) {
+                totalCount
+              }
+            }
+          }
+        `;
+        
+        sendGitHubQuery(query)
+        .then(data => {
+            console.log("Réponse de l'API de GitHub pour le lead time des issues: \n", JSON.stringify(data));
+            
+            const response = {};
+
+            const successfulPullRequests = data.data.repository.successfulPullRequests.totalCount;
+            const totalClosedPullRequests = data.data.repository.totalClosedPullRequests.totalCount;
+
+            response.successfulPullRequests = successfulPullRequests;
+            response.totalClosedPullRequests = totalClosedPullRequests;
+            response.successfulPullRequestsPercentage = (successfulPullRequests / totalClosedPullRequests) * 100;
+
+            res.json(response);
+
+        })
+        .catch(error => {
+            console.error("Error:", error.message);
+        });
+    }
+
+
+    getLeadTimePullRequest(req, res)
+    {
+        const prId = req.query.id;
+
+        var query = `
+        query {
+            repository(owner: "${github_data.username}", name: "${github_data.repo}") {
+              pullRequest(number: ${prId}) {
+                createdAt
+                closedAt
+              }
+            }
+          }
+        `;
+        
+        sendGitHubQuery(query)
+        .then(data => {
+            console.log("Réponse de l'API de GitHub pour le lead time des issues: \n", JSON.stringify(data));
+            
+            //If the pull request does not exist, we return the data, which contains the error
+            if(data.data.repository.pullRequest == null)
+            {
+                res.status(400).json(data);
+                return;
+            }
+
+            var startDate = new Date(data.data.repository.pullRequest.createdAt);
+            var endDate = new Date(data.data.repository.pullRequest.closedAt);
+
+            var response = this.calculateLeadTime(endDate - startDate);
+
+            res.json(response);
+
+        })
+        .catch(error => {
+            console.error("Error:", error.message);
+        });
     }
 }
 
