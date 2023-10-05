@@ -81,7 +81,7 @@ class AppRouter{
 
     goToIndex(req, res)
     {
-        res.redirect('/log680/v1/pageAcceuil');
+        res.redirect('/api-docs');
     }
 
     calculateLeadTime(leadTimeInMilliseconds)

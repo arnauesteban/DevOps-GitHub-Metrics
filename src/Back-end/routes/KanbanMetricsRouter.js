@@ -99,10 +99,23 @@ class KanbanMetricsRouterRouter{
 
 
     init() {
-        this.kanbanMetricsRouter.get('/log680/v1/issues/', this.retrieveIssues.bind(this));
-        this.kanbanMetricsRouter.get('/log680/v1/nbIssuesCol/:columnName', this.calculateNbIssuesPerColumn.bind(this));
+        /** 
+         * @swagger
+         * /issues:
+         *    get:
+         *      summary: Returns a list of all issues
+         *      responses:
+         *        200:
+         *          description: The list of all the issues
+         *          content:
+         *            application/json
+         *              schema:
+         *                type: array
+         * */ 
+        this.kanbanMetricsRouter.get('/issues', this.retrieveIssues.bind(this));
+        this.kanbanMetricsRouter.get('/nbIssuesCol/:columnName', this.calculateNbIssuesPerColumn.bind(this));
         //this.kanbanMetricsRouter.post('/log680/v1/nbIssues/', this.calculateNbIssueCompletedInTimeframe.bind(this));
-        this.kanbanMetricsRouter.get('/log680/v1/nbIssues/:startDate?/:endDate?', this.calculateNbIssueCompletedInTimeframe.bind(this));
+        this.kanbanMetricsRouter.get('/nbIssues/:startDate?/:endDate?', this.calculateNbIssueCompletedInTimeframe.bind(this));
     }
 }
 

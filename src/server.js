@@ -6,10 +6,31 @@ import {fileURLToPath} from 'url';
 import appRouter from './Back-end/routes/AppRouter.js';
 import acceuilRouter from './Back-end/routes/acceuilRouter.js';
 import { sendGitHubQuery } from './Back-end/utils/github-config.js';
+import swaggerUI from 'swagger-ui-express';
+import swaggerJsDoc from 'swagger-jsdoc';
 import kanbanMetricsRouter from './Back-end/routes/kanbanMetricsRouter.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+var options = {
+    definition: {
+        openapi: "3.0.0",
+        info: {
+            title: "GitHubMetrics API",
+            version: "1.0.0",
+            description: "An API to obtain Github metrics"
+        },
+        servers: [
+            {
+                url: "http://localhost:8080"
+            }
+        ],
+    },
+    apis: ["./Back-end/routes/*.js"]
+}
+
+var specs = swaggerJsDoc(options);
 var app = express();
 
 
@@ -21,6 +42,8 @@ app.use("/src/", express.static(__dirname));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+
 
 function routes(){
     let router = express.Router();
@@ -34,6 +57,7 @@ function routes(){
     app.use('/', appRouter.appRouter);
     app.use('/', acceuilRouter.acceuilRouter);
     app.use('/', kanbanMetricsRouter.kanbanMetricsRouter);
+    app.use("/api-docs", swaggerUI.serve,swaggerUI.setup(specs));
 }
 
 var server = app.listen(8080, async function () {
