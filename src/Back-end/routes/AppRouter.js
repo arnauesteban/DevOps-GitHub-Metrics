@@ -12,7 +12,14 @@ class AppRouter{
         this.appRouter.get('/lead-time', this.getLeadTimeIssue.bind(this));
         this.appRouter.get('/lead-time-period', this.getLeadTimeIssuesByPeriod.bind(this));
         this.appRouter.get('/pull-requests-mean', this.getMeanPullRequests.bind(this));
+
+        //GET /pull-requests-authors that returns the total number of pull requests (max. the last 100),
+        // the number of pull requests of every author and its percentage of pull requests compared to the total number.
         this.appRouter.get('/pull-requests-authors', this.getPullRequestsByAuthor.bind(this));
+
+        //GET /pull-requests-active-percentage that returns the percentage of pull requests that are open
+        //compared to the total number of pull requests. Based on the last 100 pull requests.
+        this.appRouter.get('/pull-requests-open-percentage', this.getPullRequestsActivePercentage.bind(this));
     }
 
     goToIndex(req, res)
@@ -262,6 +269,44 @@ class AppRouter{
         .catch(error => {
             console.error("Error:", error.message);
         });
+    }
+
+
+    getPullRequestsActivePercentage(req, res)
+    {
+        var query = `
+        query {
+            repository(owner: "${github_data.username}", name: "${github_data.repo}") {
+              openPullRequests: pullRequests(states: [OPEN]) {
+                totalCount
+              }
+              totalPullRequests: pullRequests(states: [OPEN, CLOSED, MERGED]) {
+                totalCount
+              }
+            }
+          }
+        `;
+        
+        sendGitHubQuery(query)
+        .then(data => {
+            console.log("Réponse de l'API de GitHub pour le lead time des issues: \n", JSON.stringify(data));
+            
+            const response = {};
+
+            const openPRs = data.data.repository.openPullRequests.totalCount;
+            const totalPRs = data.data.repository.totalPullRequests.totalCount;
+
+            response.openPullRequests = openPRs;
+            response.totalPullRequests = totalPRs;
+            response.openPullRequestsPercentage = (openPRs / totalPRs) * 100;
+
+            res.json(response);
+
+        })
+        .catch(error => {
+            console.error("Error:", error.message);
+        });
+
     }
 }
 
