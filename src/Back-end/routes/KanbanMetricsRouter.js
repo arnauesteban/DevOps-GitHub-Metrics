@@ -65,14 +65,15 @@ class KanbanMetricsRouterRouter{
                 }
             }
         }
-        res.json("{ nombre de issues dans la colonne " + columnName+": "+ count+ "}");
+        res.json({columnName : columnName, issuesNumber : count});
     }
 
     async calculateNbIssueCompletedInTimeframe(req, res, next){
       let count = 0
 
-      let startedDateFilter = new Date(req.query.startDate);
-      let endDateFilter = new Date(req.query.endDate);
+      let startedDateFilter = new Date(req.params.startDate);
+      let endDateFilter = new Date(req.params.endDate);
+      endDateFilter.setHours(endDateFilter.getHours()+23, 59, 59, 59);
 
       let issues;
       await this.retrieveIssues().then((response)=>{issues = response});
@@ -93,16 +94,16 @@ class KanbanMetricsRouterRouter{
           count++;
         }
       }
-      res.json("{ nombre de issues complétée durant la période: " + startedDateFilter+" et "+ endDateFilter +": " +count+ "}");
+      res.json({fromDate : startedDateFilter, untilDate : endDateFilter, issuesNumber : count});
       return count;
     }
 
 
     init() {
-        this.kanbanMetricsRouter.get('/log680/v1/issues/', this.retrieveIssues.bind(this));
-        this.kanbanMetricsRouter.get('/log680/v1/nbIssuesCol/:columnName', this.calculateNbIssuesPerColumn.bind(this));
+        this.kanbanMetricsRouter.get('/issues', this.retrieveIssues.bind(this));
+        this.kanbanMetricsRouter.get('/nbIssuesCol/:columnName', this.calculateNbIssuesPerColumn.bind(this));
         //this.kanbanMetricsRouter.post('/log680/v1/nbIssues/', this.calculateNbIssueCompletedInTimeframe.bind(this));
-        this.kanbanMetricsRouter.get('/log680/v1/nbIssues/:startDate?/:endDate?', this.calculateNbIssueCompletedInTimeframe.bind(this));
+        this.kanbanMetricsRouter.get('/nbIssues/:startDate/:endDate', this.calculateNbIssueCompletedInTimeframe.bind(this));
     }
 }
 

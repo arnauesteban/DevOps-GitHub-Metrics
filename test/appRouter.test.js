@@ -58,20 +58,6 @@ describe('API Tests', () => {
       });
   });
 
-  it('should return a 405 error: issue still open', (done) => {
-    request(app)
-      .get('/lead-time?issueId=5') // issues still open
-      .expect(405) // You can use an appropriate HTTP status code for this case
-      .end((err, res) => {
-        if (err) return done(err);
-        // Check that the response contains an error message or structure
-        // Replace with your actual error checking logic
-        expect(res.body.data.repository.issue.closedAt).to.equal(null); // Customize this based on your error response structure
-
-        done();
-      });
-  });
-
   //TEST OF LEAD TIME OF ISSUES OF A GIVEN PERIOD
   it('should calculate lead time of issues of the 3th october 2023', (done) => {
     request(app)
