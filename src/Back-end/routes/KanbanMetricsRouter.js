@@ -8,6 +8,39 @@ class KanbanMetricsRouterRouter{
         this.init();
     }
 
+    async retrieveIssue(req, res, next){
+      let issue;
+      let query = `
+      query {
+        repository(owner: "${github_data.username}", name: "${github_data.repo}") {
+            issue(number:1) {
+  						id
+        			title
+        			createdAt
+        			closedAt
+        			state
+        			labels(first:10){
+                nodes{
+                  name
+                }
+              }
+        			body
+            }
+        }
+    }
+      `;
+      await sendGitHubQuery(query)
+      .then(data => {
+          issue= data.data.repository.issue;
+          res.json(issue);
+      })
+      .catch(error => {
+          console.error("Error:", error.message);
+      });
+      return issue;
+  }
+
+
     async retrieveIssues(req, res, next){
         let issues;
         let query = `
@@ -99,10 +132,11 @@ class KanbanMetricsRouterRouter{
 
 
     init() {
-        this.kanbanMetricsRouter.get('/log680/v1/issues/', this.retrieveIssues.bind(this));
-        this.kanbanMetricsRouter.get('/log680/v1/nbIssuesCol/:columnName', this.calculateNbIssuesPerColumn.bind(this));
+        this.kanbanMetricsRouter.get('/issue/:number', this.retrieveIssue.bind(this))
+        this.kanbanMetricsRouter.get('/issues', this.retrieveIssues.bind(this));
+        this.kanbanMetricsRouter.get('/nbIssuesCol/:columnName', this.calculateNbIssuesPerColumn.bind(this));
         //this.kanbanMetricsRouter.post('/log680/v1/nbIssues/', this.calculateNbIssueCompletedInTimeframe.bind(this));
-        this.kanbanMetricsRouter.get('/log680/v1/nbIssues/:startDate?/:endDate?', this.calculateNbIssueCompletedInTimeframe.bind(this));
+        this.kanbanMetricsRouter.get('/nbIssues/:startDate?/:endDate?', this.calculateNbIssueCompletedInTimeframe.bind(this));
     }
 }
 
