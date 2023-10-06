@@ -1,0 +1,259 @@
+{
+	"info": {
+		"_postman_id": "f4da92f0-8a73-4049-8e16-4dc1ce2473e0",
+		"name": "Demo1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30296625"
+	},
+	"item": [
+		{
+			"name": "Lead time of an issue",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/lead-time?issueId=2",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"lead-time"
+					],
+					"query": [
+						{
+							"key": "issueId",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lead time of all issues within a given period",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/lead-time-period?startDate=2023-10-03&endDate=2023-10-03",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"lead-time-period"
+					],
+					"query": [
+						{
+							"key": "startDate",
+							"value": "2023-10-03"
+						},
+						{
+							"key": "endDate",
+							"value": "2023-10-03"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lead time of las 'n' pull requests",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pull-requests-mean?n=10",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pull-requests-mean"
+					],
+					"query": [
+						{
+							"key": "n",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lead time of a given pull request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/lead-time-pull-request?id=2",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"lead-time-pull-request"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pull request percentage of every author",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pull-requests-authors",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pull-requests-authors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Open pull requests compared to the total",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pull-requests-open-percentage",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pull-requests-open-percentage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Successfully merged pull request compared to the total closed pull requests",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pull-requests-successful-percentage",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pull-requests-successful-percentage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Snapshot of the Kanban table",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/metric/snapshot",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"metric",
+						"snapshot"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all issues",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/issues",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"issues"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get number of tasks completed between a time frame",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/nbIssues/2023-10-05/2023-10-05",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"nbIssues",
+						"2023-10-05",
+						"2023-10-05"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get number of tasks in a column",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/nbIssuesCol/complete",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"nbIssuesCol",
+						"complete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get issue info",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/issue/4",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"issue",
+						"4"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

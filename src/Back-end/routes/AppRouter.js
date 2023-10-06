@@ -314,7 +314,7 @@ class AppRouter{
         var startDate = new Date(req.query.startDate);
         var endDate = new Date(req.query.endDate);
         //Correction to the time to ensure a good performance
-        endDate.setHours(endDate.getHours()+23, 59);
+        endDate.setHours(endDate.getHours()+23, 59, 59, 59);
         
         
         //Calculates the lead time
