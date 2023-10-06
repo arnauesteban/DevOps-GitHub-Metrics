@@ -104,8 +104,8 @@ class KanbanMetricsRouterRouter{
     async calculateNbIssueCompletedInTimeframe(req, res, next){
       let count = 0
 
-      let startedDateFilter = new Date(req.params.startDate);
-      let endDateFilter = new Date(req.params.endDate);
+      let startedDateFilter = new Date(req.query.startDate);
+      let endDateFilter = new Date(req.query.endDate);
       endDateFilter.setHours(endDateFilter.getHours()+23, 59, 59, 59);
 
       let issues;
@@ -137,7 +137,7 @@ class KanbanMetricsRouterRouter{
         this.kanbanMetricsRouter.get('/issues', this.retrieveIssues.bind(this));
         this.kanbanMetricsRouter.get('/nbIssuesCol/:columnName', this.calculateNbIssuesPerColumn.bind(this));
         //this.kanbanMetricsRouter.post('/log680/v1/nbIssues/', this.calculateNbIssueCompletedInTimeframe.bind(this));
-        this.kanbanMetricsRouter.get('/nbIssues/:startDate?/:endDate?', this.calculateNbIssueCompletedInTimeframe.bind(this));
+        this.kanbanMetricsRouter.get('/nbIssues', this.calculateNbIssueCompletedInTimeframe.bind(this));
     }
 }
 
