@@ -13,7 +13,7 @@ class KanbanMetricsRouterRouter{
       let query = `
       query {
         repository(owner: "${github_data.username}", name: "${github_data.repo}") {
-            issue(number:1) {
+            issue(number: ${req.params.number}) {
   						id
         			title
         			createdAt
