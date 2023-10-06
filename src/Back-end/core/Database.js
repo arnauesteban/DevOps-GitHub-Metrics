@@ -1,14 +1,14 @@
 import mariadb from 'mariadb';
 
 class Database {
-/*     constructor(){
+     constructor(){
         this.pool = mariadb.createPool({
             host:'localhost',
             user:'root',
             password:'vl123456',
-            database:'github_data'
+            database:'githubMetrics'
         });
-    } */
+    }
 }
 
 const dataBase = new Database();
