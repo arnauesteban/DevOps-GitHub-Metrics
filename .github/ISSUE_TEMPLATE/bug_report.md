@@ -23,7 +23,7 @@ A clear and concise description of what you expected to happen.
 **Actual Behavior**
 Describe what is currently happening when the bug occurs. This should be a detailed account of the problem.
 
-** Reproducibility**
+**Reproducibility**
 Specify whether the bug is reproducible consistently or intermittently.
 
 **Logs and Error Messages**
