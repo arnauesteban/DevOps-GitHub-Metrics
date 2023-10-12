@@ -17,18 +17,24 @@
 
 ### Nos répertoires GitHub
 
+https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Repertoires_GitHub.md
+
 ### Création d’un projet et du tableau Kanban dans GitHub
 ## **Choix des colonnes du Kanban**
 
+https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Choix_Colonne_Kanban.md
 
 **Choix pour les automatisations**
 
+https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Choix_automatisations_workflow.md
 
 ### Création des étiquettes
 
 ### Ajout de modèles
 
 ### Création des milestones
+
+https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Cr%C3%A9ation_Milestones.md
 
 ### Politiques de branches
 
