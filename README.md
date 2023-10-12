@@ -60,7 +60,8 @@ https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Cr%C3%A9at
 https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Choix_Politique_de_branches.md
 
 ## Création de l’application
-Lien de la doc expliquant le choix des technologies utilisées pour l’API
+https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Choix_technologiques.md
+
 ## Métriques Kanban 
 Lien de la doc expliquant le choix des métriques Kanban et leur calcul
 ## Métriques “pull-request” 
@@ -71,3 +72,5 @@ Lien de la doc expliquant le choix la DB et le lien avec l’API
 Lien de la doc expliquant le calcul et les utilisations de la métrique de visualisation
 
 ## Tests et démonstration
+
+https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Choix_tests_demo.md
