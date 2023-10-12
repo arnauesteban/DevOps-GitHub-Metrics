@@ -15,12 +15,12 @@
 >
 >[Politiques de branches](#politiques-de-branches)
 
-### Nos répertoires GitHub
+## Nos répertoires GitHub
 
 https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Repertoires_GitHub.md
 
-### Création d’un projet et du tableau Kanban dans GitHub
-## **Choix des colonnes du Kanban**
+## Création d’un projet et du tableau Kanban dans GitHub
+**Choix des colonnes du Kanban**
 
 https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Choix_Colonne_Kanban.md
 
@@ -28,15 +28,15 @@ https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Choix_Colo
 
 https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Choix_automatisations_workflow.md
 
-### Création des étiquettes
+## Création des étiquettes
 
-### Ajout de modèles
+## Ajout de modèles
 
-### Création des milestones
+## Création des milestones
 
 https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Cr%C3%A9ation_Milestones.md
 
-### Politiques de branches
+## Politiques de branches
 
 
 //>Afin de pouvoir automatiser le test des routes, nous avons utilisé postman. Pour se faire, nous avons créé un fichier JSON avec les routes à appeller et les divers paramètres utilisés.
