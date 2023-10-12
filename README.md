@@ -64,10 +64,13 @@ https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Choix_tech
 
 ## Métriques Kanban 
 Lien de la doc expliquant le choix des métriques Kanban et leur calcul
+
 ## Métriques “pull-request” 
 Lien de la doc expliquant le choix des métriques PR et leur calcul
+
 ## Base de données
 Lien de la doc expliquant le choix la DB et le lien avec l’API
+
 ## Métrique de visualisation
 Lien de la doc expliquant le calcul et les utilisations de la métrique de visualisation
 
