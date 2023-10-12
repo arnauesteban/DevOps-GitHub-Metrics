@@ -63,10 +63,12 @@ https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Choix_Poli
 https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Choix_technologiques.md
 
 ## Métriques Kanban 
-Lien de la doc expliquant le choix des métriques Kanban et leur calcul
+
+https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Choix_metrics_Kanban.md
 
 ## Métriques “pull-request” 
-Lien de la doc expliquant le choix des métriques PR et leur calcul
+
+https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Choix_metrics_PR.md
 
 ## Base de données
 Lien de la doc expliquant le choix la DB et le lien avec l’API
