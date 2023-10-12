@@ -37,7 +37,7 @@ https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Choix_auto
 https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Cr%C3%A9ation_Milestones.md
 
 ## Politiques de branches
-
+https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Choix_Politique_de_branches.md
 
 //>Afin de pouvoir automatiser le test des routes, nous avons utilisé postman. Pour se faire, nous avons créé un fichier JSON avec les routes à appeller et les divers paramètres utilisés.
 >
