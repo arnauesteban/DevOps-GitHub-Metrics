@@ -15,6 +15,16 @@
 >
 >[Politiques de branches](#politiques-de-branches)
 >
+>[Création de l’application](#création-de-lapplication)
+>
+>[Métriques Kanban](#métriques-kanban) 
+>
+>[Métriques “pull-request”](#métriques-pull-request)
+>
+>[Base de données](#base-de-données)
+>
+>[Métrique de visualisation](#métrique-de-visualisation)
+>
 >[Tests et démontration](#tests-et-démonstration)
 
 ## Nos répertoires GitHub
@@ -49,7 +59,15 @@ https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Cr%C3%A9at
 ## Politiques de branches
 https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Choix_Politique_de_branches.md
 
-## Tests et démonstration 
->Afin de pouvoir automatiser l'affichage du test des routes pour la démonstration, nous avons utilisé postman. Pour se faire, nous avons créé un fichier JSON avec les routes à appeller et les divers paramètres utilisés.
->
->De plus, des JUnit tests ont étés créés pour tester les fonctions et les résultats retournés.
+## Création de l’application
+Lien de la doc expliquant le choix des technologies utilisées pour l’API
+## Métriques Kanban 
+Lien de la doc expliquant le choix des métriques Kanban et leur calcul
+## Métriques “pull-request” 
+Lien de la doc expliquant le choix des métriques PR et leur calcul
+## Base de données
+Lien de la doc expliquant le choix la DB et le lien avec l’API
+## Métrique de visualisation
+Lien de la doc expliquant le calcul et les utilisations de la métrique de visualisation
+
+## Tests et démonstration
