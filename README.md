@@ -29,6 +29,7 @@ https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Choix_Colo
 https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Choix_automatisations_workflow.md
 
 ## Création des étiquettes
+https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Choix_des_labels.md
 
 ## Ajout de modèles
 
