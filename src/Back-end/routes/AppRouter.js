@@ -172,7 +172,7 @@ class AppRouter{
 
         sendGitHubQuery(query)
         .then(data => {
-            console.log("Réponse de l'API de GitHub pour le lead time d'une issue ", JSON.stringify(data));
+            //console.log("Réponse de l'API de GitHub pour le lead time d'une issue ", JSON.stringify(data));
 
             var snapshot = {};
             data.data.repository.projectV2.items.nodes.forEach((c) => {
@@ -245,7 +245,7 @@ class AppRouter{
         //Calculates the lead time
         sendGitHubQuery(query)
         .then(data => {
-            console.log("Réponse de l'API de GitHub pour le lead time d'une issue ", JSON.stringify(data));
+            //console.log("Réponse de l'API de GitHub pour le lead time d'une issue ", JSON.stringify(data));
 
             //If the issue does not exist, we return the data, which contains the error
             if(data.data.repository.issue == null)
@@ -266,8 +266,8 @@ class AppRouter{
 
             const leadTimeObject = this.calculateLeadTime(closedAt - createdAt);
 
-            console.log("Lead time : " + leadTimeObject["days"] + "days " 
-            + leadTimeObject["hours"] + "hours " + leadTimeObject["minutes"] + "min " + leadTimeObject["seconds"] + "sec");
+            //console.log("Lead time : " + leadTimeObject["days"] + "days " 
+            //+ leadTimeObject["hours"] + "hours " + leadTimeObject["minutes"] + "min " + leadTimeObject["seconds"] + "sec");
 
             res.json(leadTimeObject);
 
@@ -282,9 +282,9 @@ class AppRouter{
 
     getLeadTimeIssuesByPeriod(req, res)
     {
-        console.log("FEEECHAAASSSS\n");
-        console.log(req.query.startDate);
-        console.log(req.query.endDate);
+        //console.log("FEEECHAAASSSS\n");
+        //console.log(req.query.startDate);
+        //console.log(req.query.endDate);
         if(req.query.startDate == "" || req.query.endDate == "")
         {
             res.status(400).json("ERROR");
@@ -320,7 +320,7 @@ class AppRouter{
         //Calculates the lead time
         sendGitHubQuery(query)
         .then(data => {
-            console.log("Réponse de l'API de GitHub pour le lead time des issues: \n", JSON.stringify(data));
+            //console.log("Réponse de l'API de GitHub pour le lead time des issues: \n", JSON.stringify(data));
 
             // Filters the issues closed within the start and end dates
             const issuesWithinRange = data.data.repository.issues.nodes.filter((issue) => {
@@ -373,11 +373,11 @@ class AppRouter{
 
         sendGitHubQuery(query)
         .then(data => {
-            console.log("Réponse de l'API de GitHub pour le lead time des issues: \n", JSON.stringify(data));
+            //console.log("Réponse de l'API de GitHub pour le lead time des issues: \n", JSON.stringify(data));
 
             var pr = data.data.repository.pullRequests.edges;
-            console.log("pr: \n");
-            console.log(pr);
+           /*  console.log("pr: \n");
+            console.log(pr); */
             var sum = 0;
             pr.forEach((i) => {
                 var duration = new Date(i.node.mergedAt) - new Date(i.node.createdAt);
@@ -385,7 +385,7 @@ class AppRouter{
                 sum += duration;
             });
 
-            console.log("Sum:" + sum);
+            /* console.log("Sum:" + sum); */
 
             var mean = sum / n;
 
@@ -421,7 +421,7 @@ class AppRouter{
 
         sendGitHubQuery(query)
         .then(data => {
-            console.log("Réponse de l'API de GitHub pour le lead time des issues: \n", JSON.stringify(data));
+            //console.log("Réponse de l'API de GitHub pour le lead time des issues: \n", JSON.stringify(data));
             
             // Create an object to track the number of Pull Requests per author
             const prsByAuthor = {};
@@ -453,8 +453,8 @@ class AppRouter{
                 });
             }
 
-            console.log("Response: \n");
-            console.log(response);
+            /* console.log("Response: \n");
+            console.log(response); */
 
             res.json(response);
 
@@ -483,7 +483,7 @@ class AppRouter{
         
         sendGitHubQuery(query)
         .then(data => {
-            console.log("Réponse de l'API de GitHub pour le lead time des issues: \n", JSON.stringify(data));
+            //console.log("Réponse de l'API de GitHub pour le lead time des issues: \n", JSON.stringify(data));
             
             const response = {};
 
@@ -521,7 +521,7 @@ class AppRouter{
         
         sendGitHubQuery(query)
         .then(data => {
-            console.log("Réponse de l'API de GitHub pour le lead time des issues: \n", JSON.stringify(data));
+            //console.log("Réponse de l'API de GitHub pour le lead time des issues: \n", JSON.stringify(data));
             
             const response = {};
 
@@ -559,7 +559,7 @@ class AppRouter{
         
         sendGitHubQuery(query)
         .then(data => {
-            console.log("Réponse de l'API de GitHub pour le lead time des issues: \n", JSON.stringify(data));
+            //console.log("Réponse de l'API de GitHub pour le lead time des issues: \n", JSON.stringify(data));
             
             //If the pull request does not exist, we return the data, which contains the error
             if(data.data.repository.pullRequest == null)

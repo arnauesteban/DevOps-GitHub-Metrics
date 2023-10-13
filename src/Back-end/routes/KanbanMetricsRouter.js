@@ -8,6 +8,13 @@ class KanbanMetricsRouterRouter{
         this.init();
     }
 
+    /**
+     * Cette fonction permet de récuperer une tâche créées dans le projet à partir du numéro de la tache
+     * @param {*} req la requête de la route (permet d'obtenir les paramètres 
+     * pour la récupération de donnée (numéro de tâche))
+     * @param {*} res response de la route
+     * @param {*} next 
+     */
     async retrieveIssue(req, res, next){
       let issue;
       let query = `
@@ -40,7 +47,12 @@ class KanbanMetricsRouterRouter{
       return issue;
   }
 
-
+    /**
+     * Cette fonction permet de récuperer une liste de toute les tâches créées dans le projet
+     * @param {*} req la requête de la route 
+     * @param {*} res response de la route
+     * @param {*} next 
+     */
     async retrieveIssues(req, res, next){
         let issues;
         let query = `
@@ -80,6 +92,12 @@ class KanbanMetricsRouterRouter{
         return issues;
     }
 
+    /**
+     * Cette fonction permet d'obtenir le nombre de taches par colonnes
+     * @param {*} req la requête de la route 
+     * @param {*} res response de la route
+     * @param {*} next 
+     */
     async calculateNbIssuesPerColumn(req, res, next){
         let count = 0
         let columnName = req.params.columnName.replace(/[\u0300-\u036f]/g, '').toLowerCase().replaceAll("_"," ").replaceAll("\"", "");
@@ -113,17 +131,12 @@ class KanbanMetricsRouterRouter{
 
       for(let i = 0; i< issues.length; i++){
         let issue = issues[i];
-        console.log(issue);
         let startedAt = new Date(issue.content.createdAt);
         let closedAt;
         if(issue.content.closedAt !==null || undefined){
           closedAt = new Date(issue.content.closedAt);
-        }
-        console.log(startedDateFilter + " vs " +startedAt);
-        console.log(endDateFilter +" vs "+  closedAt)    
+        }   
         if(startedDateFilter <= startedAt && endDateFilter >= closedAt){
-          console.log(startedDateFilter + " vs " +startedAt);
-          console.log(endDateFilter +" vs "+  closedAt)    
           count++;
         }
       }
