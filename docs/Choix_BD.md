@@ -1,0 +1,7 @@
+## Base de données
+
+>Pour la Base de données, nous avons décidé d'aller avec une base de données SQL. Nous avons préféré ce type de structure pour son aspect relationnel. Cet aspect relationnel veut dire qu'une colonne est unique dans un tableau avec un type défini. Cette aspect enlève tout ambiguïté qu'une base de données non relationnel (NoSQL) peut avoir. De plus, étant donné que les bases de données non-relationnels peuvent être contenir des tableaux à l'intérieur de tableaux, ceci augmente leurs complexité. Nous voulions avoir une base de données claire et que les tableaux soit clairs. Si nous voulons avoir une vue combinant plusieurs tables comme dans NoSQL nous ferons des JOIN pour créer ses nouvelles vues sans créer de nouveaux tableaux.
+>
+>Pour ce qui est du choix de base de données SQL, nous avons choisi MariaDB. MariaDB est une base de données SQL qui est open source, donc gratuite. Nous avons aussi choisi MariaDB pour son logiciel d'interface qui permet l'écriture et la gestion de base de données et de procédures. De plus, MariaDB supporte plusieurs connexions simultannées ce qui permettrait à plusieurs utilisateurs de regarder les données en même temps.
+>
+>Dans le cadre du projet, nous utiliserons la base de données pour enregistrer les résultats des snapshots, chaque fois qu'un snapshot est demandé par l'API. Ceci nous permettra de conserver un registre des données que nous avons regardés pour pouvoir faire de l'analyse à plus long terme. 

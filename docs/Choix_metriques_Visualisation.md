@@ -1,0 +1,3 @@
+## Métrique de visualisation
+
+>Pour la page d'acceuil, nous voulions une métrique qui nous permettait d'afficher l'état général globale du projet. Pour y arriver, nous avons décider d'afficher le nombre de tâches par colonnes du tableau Kanban. De cette façon, lorsque l'on rentre dans l'API nous avons une idée où il y a le plus de tâches pour pouvoir aller se concentrer sur la colonne qui en a le plus besoin.
