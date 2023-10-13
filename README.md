@@ -71,10 +71,12 @@ https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Choix_metr
 https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Choix_metrics_PR.md
 
 ## Base de données
-Lien de la doc expliquant le choix la DB et le lien avec l’API
+
+https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Choix_BD.md
 
 ## Métrique de visualisation
-Lien de la doc expliquant le calcul et les utilisations de la métrique de visualisation
+
+https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Choix_metriques_Visualisation.md
 
 ## Tests et démonstration
 
