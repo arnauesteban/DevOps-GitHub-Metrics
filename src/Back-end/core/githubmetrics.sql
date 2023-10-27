@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `metricssnapshot` (
   `A_Faire` int(11) DEFAULT NULL,
   `En_Cours` int(11) DEFAULT NULL,
   `Revue` int(11) DEFAULT NULL,
-  `Complété` int(11) DEFAULT NULL
+  `Complete` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- Listage des données de la table githubmetrics.metricssnapshot : ~0 rows (environ)
