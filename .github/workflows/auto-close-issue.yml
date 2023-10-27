@@ -1,0 +1,39 @@
+name: Auto Close Issues in "Complété" Column
+
+on:
+  project_card:
+    types:
+      - moved
+
+jobs:
+  close-issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if the card is in "Complété" column
+        id: check-column
+        run: |
+          if [[ "${{ github.event.project_card.column_name }}" == "Complété" ]]; then
+            echo "The card is in the 'Complété' column."
+            echo "::set-output name=close-issue::true"
+          else
+            echo "The card is not in the 'Complété' column."
+            echo "::set-output name=close-issue::false"
+          fi
+
+      - name: Close Issue
+        if: steps.check-column.outputs.close-issue == 'true'
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issueId = github.context.payload.project_card.content_url.split('/').pop();
+            const { data } = await github.graphql(`
+              mutation {
+                closeIssue(input: { issueId: "${issueId}" }) {
+                  issue {
+                    number
+                  }
+                }
+              }
+            `);
+            console.log(`Se cerró la Issue #${data.closeIssue.issue.number}`);
