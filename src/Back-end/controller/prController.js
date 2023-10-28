@@ -52,7 +52,6 @@ export const recordPullRequestLeadTime = (req, res) => {
 }
 
 export const getPullRequestsSuccessfulPercentage = (req, res) => {
-    console.log('lol')
     sendGitHubQuery(QUERY_GRAPHQL.SUCCESSFULLY_MERGED_PR).then(data => {
         //console.log("Réponse de l'API de GitHub pour le lead time des issues: \n", JSON.stringify(data));
         console.log(data);
@@ -141,7 +140,7 @@ export const getPullRequestsMeanTime = (req, res) => {
         let n = 0;
         pr.forEach((i) => {
             var duration = new Date(i.node.mergedAt) - new Date(i.node.createdAt);
-            console.log("duration: " + duration);
+            
             sum += duration;
             n++;
         });
