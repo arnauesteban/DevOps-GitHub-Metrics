@@ -30,7 +30,7 @@ export const getPullRequest = async (id) => {
 
 export const getPullRequestLeadTime = async (req, res) => {
     let pr;
-    
+    let prLeadTime;
     pr = await getPullRequest(req.params.id).then((pr) => {
         if(pr == null){
             res.status(404).json(data);
@@ -38,17 +38,23 @@ export const getPullRequestLeadTime = async (req, res) => {
         }else{
             var startDate = new Date(pr.createdAt);
             var endDate = new Date(pr.closedAt);
-            var response = calculateLeadTime(endDate - startDate);
-            res.json(response);
+            var leadTime = calculateLeadTime(endDate - startDate);
+            let leadTimeString = leadTime['days']+ " Days " + leadTime['hours'] + " hours " + leadTime['minutes'] +" minutes " +
+            leadTime['seconds'] + " seconds.";
+            prLeadTime = {'PullRequestID' : pr.number, 'Title' : pr.title, 'Timestamp' : new Date() , 'LeadTime' : leadTimeString}
         }
     }).catch(error => {
         console.error("Error:", error.message);
         res.status(400).json("ERROR");
     });
+    return prLeadTime;
 }
 
-export const recordPullRequestLeadTime = (req, res) => {
-
+export const recordPullRequestLeadTime = async (prLeadTime) => {
+    let conn = await dataBase.pool.getConnection();
+    
+    await conn.query(QUERY.CREATE_METRICS_PR, [prLeadTime['PullRequestID'], prLeadTime['Title'], prLeadTime['Timestamp'], prLeadTime['LeadTime']]);
+    conn.end()
 }
 
 export const getPullRequestsSuccessfulPercentage = (req, res) => {

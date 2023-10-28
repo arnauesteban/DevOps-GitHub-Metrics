@@ -4,6 +4,7 @@ const QUERY_GRAPHQL = {
     SNAPSHOT : `query {
         repository(owner: "arnauesteban", name: "labo-devops-g14-a23") {
           projectV2(number: 2) {
+            number
             items(first: 100) {
               nodes {
                 status: fieldValueByName(name: "Status") {

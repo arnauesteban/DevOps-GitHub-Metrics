@@ -1,5 +1,5 @@
 import dataBase from "../core/Database.js";
-import QUERY_DB from "../core/QueriesDB.js";
+import QUERY from "../core/QueriesDB.js";
 import QUERY_GRAPHQL from "../core/QueriesGraphQL.js"
 import { getIssueGraphQLQuery } from "../core/QueriesGraphQL.js";
 import { sendGitHubQuery } from '../utils/github-config.js';
@@ -95,13 +95,19 @@ export const getLeadTimeIssue = async (req, res) =>{
         return;
     }
     createdAt = new Date(issue.createdAt);
-    closedAt = new Date(issue.closedAt);
+    closedAt = new Date(issue.closedAt) || new Date();
     leadTimeIssue = calculateLeadTime(closedAt - createdAt);
-    res.json(leadTimeIssue);
+    return { 'IssueID' : issue.number, 'Title': issue.title, 'Timestamp': new Date(),'LeadTime' : leadTimeIssue};
 }
 
-export const recordLeadTimeIssue = (req, res) =>{
+export const recordLeadTimeIssue = async (leadTimeIssue) =>{
+    let conn = await dataBase.pool.getConnection();
+    
+    let issueLeadTimeString = leadTimeIssue['LeadTime']['days']+ " Days " + leadTimeIssue['LeadTime']['hours'] + " hours " + leadTimeIssue['LeadTime']['minutes'] +" minutes " +
+    leadTimeIssue['LeadTime']['seconds'] + "seconds.";
 
+    await conn.query(QUERY.CREATE_METRICS_ISSUE, [leadTimeIssue['IssueID'], leadTimeIssue['Title'], leadTimeIssue['Timestamp'], issueLeadTimeString]);
+    conn.end()
 }
 
 export const getLeadTimeIssuesByPeriod = async (req, res) =>{

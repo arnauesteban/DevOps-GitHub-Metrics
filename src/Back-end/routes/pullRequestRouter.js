@@ -11,7 +11,11 @@ pullRequestRouter.get('/pullRequests/:id', async (req, res) => {
     res.json(await getPullRequest(req.params.id));
 });
 
-pullRequestRouter.route('/pullRequests/leadTime/:id').get(getPullRequestLeadTime);
+pullRequestRouter.get('/pullRequests/leadTime/:id', async (req, res) =>{
+    let pullRequestLeadTime = await getPullRequestLeadTime(req, res);
+    recordPullRequestLeadTime(pullRequestLeadTime);
+    res.json(pullRequestLeadTime);
+});
 
 pullRequestRouter.route('/pullRequests/leadTime/:id').post(recordPullRequestLeadTime);
 
