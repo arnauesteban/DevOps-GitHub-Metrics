@@ -33,5 +33,6 @@ export const recordSnapshot = async (snapshot) => {
     let conn = await dataBase.pool.getConnection();
     await conn.query(QUERY.CREATE_METRICS_SNAPSHOT, [snapshot.ProjectID, snapshot.Timestamp, snapshot.columns['Backlog'], 
                         snapshot.columns['A faire'], snapshot.columns['En cours'], snapshot.columns['Revue'], snapshot.columns['Complété']]);
+    let data = await conn.query('SELECT * FROM metricssnapshot');
     conn.end()
 }
