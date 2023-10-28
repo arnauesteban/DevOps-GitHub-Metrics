@@ -11,6 +11,7 @@ import issuesRouter from './Back-end/routes/issuesRouter.js';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './Back-end/utils/swaggerConfig.js'
 import snapshotRouter from './Back-end/routes/snapshotRouter.js';
+import pullRequestRouter from './Back-end/routes/pullRequestRouter.js';
 
 
 var app = express();
@@ -30,12 +31,10 @@ function routes(){
         saveUninitialized: false
     }));
 
-    app.use('/', router);
-    //app.use('/', appRouter.appRouter);
-    //app.use('/', acceuilRouter.acceuilRouter);
-    
+    app.use('/', router);    
     app.use('/', issuesRouter);
     app.use('/', snapshotRouter);
+    app.use('/', pullRequestRouter);
 }
 
 var server = app.listen(8080, async function () {

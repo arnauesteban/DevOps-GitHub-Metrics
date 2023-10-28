@@ -4,7 +4,6 @@ import QUERY_GRAPHQL from "../core/QueriesGraphQL.js"
 import { getIssueGraphQLQuery } from "../core/QueriesGraphQL.js";
 import { sendGitHubQuery } from '../utils/github-config.js';
 
-
 export const getIssues = async () => {
     let issues;
 
@@ -143,7 +142,7 @@ export const getLeadTimeIssuesByPeriod = async (req, res) =>{
     res.json(issues);
 };
 
-function calculateLeadTime(leadTimeInMilliseconds) {
+export function calculateLeadTime(leadTimeInMilliseconds) {
         // Converts leadTimeInMilliseconds into days:hours:seconds
         const seconds = Math.floor(leadTimeInMilliseconds / 1000);
         const minutes = Math.floor(seconds / 60);

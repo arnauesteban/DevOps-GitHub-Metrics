@@ -25,6 +25,8 @@ const QUERY_GRAPHQL = {
                     nodes {
                         content {
                             ... on Issue {
+                                id
+                                number
                                 title
                                 state
                                 createdAt
@@ -49,10 +51,29 @@ const QUERY_GRAPHQL = {
                 first: 100
             ) {
                 nodes {
+                    id
                     number
                     title
                     createdAt
                     closedAt
+                }
+            }
+        }
+    }`,
+
+    ALL_PR : `query {
+        repository(owner: "arnauesteban", name: "labo-devops-g14-a23") {
+            pullRequests(first: 100) {
+                nodes{
+                    id
+                    number
+                    title
+                    state
+                    createdAt
+                    closedAt
+                    author{
+                        login
+                    }
                 }
             }
         }
@@ -69,7 +90,7 @@ const QUERY_GRAPHQL = {
         }
     }`,
 
-    CURRENTLY_OPENED_PR : `query {
+    CURRENTLY_OPENED_VS_TOTAL_PR : `query {
         repository(owner: "${github_data.username}", name: "${github_data.repo}") {
             openPullRequests: pullRequests(states: [OPEN]) {
                 totalCount
@@ -99,6 +120,7 @@ export const getIssueGraphQLQuery = (id) => {
         repository(owner: "${github_data.username}", name: "${github_data.repo}") {
             issue(number: ${id}) {
   				id
+                number
         		title
         		createdAt
         		closedAt
@@ -114,10 +136,11 @@ export const getIssueGraphQLQuery = (id) => {
     }`);
 }
 
-export const getPRGraphQLQuery = (prid) => {
+export const getPRGraphQLQuery = (prID) => {
     return(`query {
         repository(owner: "${github_data.username}", name: "${github_data.repo}") {
-            pullRequest(number: ${prId}) {
+            pullRequest(number: ${prID}) {
+                number
                 title
                 createdAt
                 closedAt
@@ -126,10 +149,10 @@ export const getPRGraphQLQuery = (prid) => {
     }`)
 }
 
-export const getPRsTimeInfo = (nb_of_PR) => {
+export const getPRsMeanTimeInfo = (nb_of_PR) => {
     return(`query {
         repository(owner: "${github_data.username}", name: "${github_data.repo}") {
-            pullRequests(first: ${n}, states: MERGED, orderBy : {field : CREATED_AT, direction :DESC}) {
+            pullRequests(first: ${nb_of_PR}, states: MERGED, orderBy : {field : CREATED_AT, direction :DESC}) {
                 edges {
                     node {
                         title
