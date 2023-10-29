@@ -160,6 +160,58 @@ issuesRouter.get('/issues/leadTime/:id', async (req, res) =>{
 
 /**
  * @swagger
+ * /issues/leadtime/{startDate}/{endDate}:
+ *  get:
+ *      summary: get the leadtime of an issue
+ *      parameters:
+ *          -   in: path
+ *              name: startDate
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: The date at which the issue was started
+ *          -   in: path
+ *              name: endDate
+ *              schema:
+ *                  type:string
+ *              required: true
+ *              description: The date at which the issue was closed or merged
+ *      responses:
+ *          200:
+ *              description: retrieves the issue and calculates its leadtime in days, hours, minutes and seconds
+ *              content:
+ *                  array:
+ *                      items:
+ *                          application/json:
+ *                              items:
+ *                                  properties:
+ *                                      number:
+ *                                          type: int
+ *                                          description: The number of the issue (in this api we use it as the id instead of the true id provided by github)
+ *                                      title:
+ *                                          type: string
+ *                                          description: Title of the issue, gives us a brief description of the issue.
+ *                                      leadTime:
+ *                                          application/json:
+ *                                              items:
+ *                                                  properties:
+ *                                                      days:
+ *                                                          type: int
+ *                                                          description: number of days the issue passed in leadtime
+ *                                                      hours:
+ *                                                          type: int
+ *                                                          description: number of hours the issue passed in leadtime
+ *                                                      minutes:
+ *                                                          type: int
+ *                                                          description: number of minutes the issue passed in leadtime
+ *                                                      seconds:
+ *                                                          type: int
+ *                                                          description: number of seconds the issue passed in leadtime
+ */
+issuesRouter.route('/issues/leadTime/:startDate/:endDate').get(getLeadTimeIssuesByPeriod);
+
+/**
+ * @swagger
  * /issues/count/{column_name}:
  *  get:
  *      summary: get the total count of issues inside a column
@@ -223,63 +275,6 @@ issuesRouter.route('/issues/count/:column_name').get(getNbIssuesPerColumn);
  */
 issuesRouter.route('/issues/count/:startDate/:endDate').get(getNbIssueCompletedInTimeframe);
 
-/**
- * @swagger
- * /issues/leadtime/{startDate}/{endDate}:
- *  get:
- *      summary: get the leadtime of an issue
- *      parameters:
- *          -   in: path
- *              name: startDate
- *              schema:
- *                  type: string
- *              required: true
- *              description: The date at which the issue was started
- *          -   in: path
- *              name: endDate
- *              schema:
- *                  type:string
- *              required: true
- *              description: The date at which the issue was closed or merged
- *      responses:
- *          200:
- *              description: retrieves the issue and calculates its leadtime in days, hours, minutes and seconds
- *              content:
- *                  array:
- *                      items:
- *                          application/json:
- *                              items:
- *                                  properties:
- *                                      number:
- *                                          type: int
- *                                          description: The number of the issue (in this api we use it as the id instead of the true id provided by github)
- *                                      title:
- *                                          type: string
- *                                          description: Title of the issue, gives us a brief description of the issue.
- *                                      leadTime:
- *                                          application/json:
- *                                              items:
- *                                                  properties:
- *                                                      days:
- *                                                          type: int
- *                                                          description: number of days the issue passed in leadtime
- *                                                      hours:
- *                                                          type: int
- *                                                          description: number of hours the issue passed in leadtime
- *                                                      minutes:
- *                                                          type: int
- *                                                          description: number of minutes the issue passed in leadtime
- *                                                      seconds:
- *                                                          type: int
- *                                                          description: number of seconds the issue passed in leadtime
- */
-issuesRouter.route('/issues/leadTime/:startDate/:endDate').get(getLeadTimeIssuesByPeriod);
-
 issuesRouter.route('/issues/leadTime/:id').post(recordLeadTimeIssue);
 
 export default issuesRouter;
-
-
-
-
-
