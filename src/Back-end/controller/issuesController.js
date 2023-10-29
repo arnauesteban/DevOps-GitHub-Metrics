@@ -33,7 +33,6 @@ export const getNbIssuesPerColumn = async (req, res) => {
     let columnName = req.params.column_name.replace(/[\u0300-\u036f]/g, '').toLowerCase().replaceAll("_"," ").replaceAll("\"", "");
     let issues;
     await getIssues().then((response)=>{issues = response});
-    
     for(let i = 0; i< issues.length; i++){
         let issue = issues[i];
         for(let key in issue){

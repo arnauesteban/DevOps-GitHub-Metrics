@@ -12,19 +12,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/lead-time?issueId=2",
+					"raw": "localhost:8080/issues/leadtime/2",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"lead-time"
-					],
-					"query": [
-						{
-							"key": "issueId",
-							"value": "2"
-						}
+						"issues",
+						"lead-time",
+						"2"
 					]
 				}
 			},
@@ -36,23 +32,16 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/lead-time-period?startDate=2023-10-03&endDate=2023-10-03",
+					"raw": "localhost:8080/issues/leadtime/2023-10-03/2023-10-26",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"lead-time-period"
-					],
-					"query": [
-						{
-							"key": "startDate",
-							"value": "2023-10-03"
-						},
-						{
-							"key": "endDate",
-							"value": "2023-10-03"
-						}
+						"issues",
+						"count",
+						"2023-10-03",
+						"2023-10-26"
 					]
 				}
 			},
@@ -64,19 +53,16 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/pull-requests-mean?n=10",
+					"raw": "localhost:8080/pullRequests/metrics/mean_time/10",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"pull-requests-mean"
-					],
-					"query": [
-						{
-							"key": "n",
-							"value": "10"
-						}
+						"pullRequests",
+						"metrics",
+						"mean_time",
+						"10"
 					]
 				}
 			},
@@ -88,19 +74,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/lead-time-pull-request?id=2",
+					"raw": "localhost:8080/pullRequests/leadtime/2",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"lead-time-pull-request"
-					],
-					"query": [
-						{
-							"key": "id",
-							"value": "2"
-						}
+						"pullRequests",
+						"leadtime",
+						"2"
 					]
 				}
 			},
@@ -112,13 +94,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/pull-requests-authors",
+					"raw": "localhost:8080/pullRequests/metrics/authors",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"pull-requests-authors"
+						"pullRequests",
+						"metrics",
+						"authors"
 					]
 				}
 			},
@@ -130,13 +114,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/pull-requests-open-percentage",
+					"raw": "localhost:8080/pullRequests/metrics/opened_rate",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"pull-requests-open-percentage"
+						"pullRequests",
+						"metrics",
+						"opened_rate"
 					]
 				}
 			},
@@ -148,13 +134,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/pull-requests-successful-percentage",
+					"raw": "localhost:8080/pullRequests/metrics/success_rate",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"pull-requests-successful-percentage"
+						"pullRequests",
+						"metrics",
+						"success_rate"
 					]
 				}
 			},
@@ -166,13 +154,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/metric/snapshot",
+					"raw": "localhost:8080/snapshot",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"metric",
 						"snapshot"
 					]
 				}
@@ -203,15 +190,16 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/nbIssues?startDate=2023-10-05&endDate=2023-10-05",
+					"raw": "localhost:8080/issues/count/2023-10-05/2023-10-25",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"nbIssues",
+						"issues",
+						"count",
 						"2023-10-05",
-						"2023-10-05"
+						"2023-10-25"
 					]
 				}
 			},
@@ -223,14 +211,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/nbIssuesCol/complete",
+					"raw": "localhost:8080/issues/count/backlog",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"nbIssuesCol",
-						"complete"
+						"issues",
+						"count",
+						"backlog"
 					]
 				}
 			},
@@ -242,13 +231,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/issue/4",
+					"raw": "localhost:8080/issues/4",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"issue",
+						"issues",
 						"4"
 					]
 				}

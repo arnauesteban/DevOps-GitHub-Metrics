@@ -14,7 +14,7 @@ const options = {
     ],
   },
   // Specify the files that contains JSDoc comments for the generation of swagger
-  apis: ["../routes/*.js"]
+  apis: ["**/routes/snapshotRouter.js", "**/routes/issuesRouter.js", "**/routes/pullRequestRouter.js"]
 };
 
 const swaggerSpec = swaggerJsdoc(options);

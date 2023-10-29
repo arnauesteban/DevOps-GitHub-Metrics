@@ -52,7 +52,7 @@ export const getPullRequestLeadTime = async (req, res) => {
 
 export const recordPullRequestLeadTime = async (prLeadTime) => {
     let conn = await dataBase.pool.getConnection();
-    
+
     await conn.query(QUERY.CREATE_METRICS_PR, [prLeadTime['PullRequestID'], prLeadTime['Title'], prLeadTime['Timestamp'], prLeadTime['LeadTime']]);
     conn.end()
 }
@@ -60,7 +60,6 @@ export const recordPullRequestLeadTime = async (prLeadTime) => {
 export const getPullRequestsSuccessfulPercentage = (req, res) => {
     sendGitHubQuery(QUERY_GRAPHQL.SUCCESSFULLY_MERGED_PR).then(data => {
         //console.log("Réponse de l'API de GitHub pour le lead time des issues: \n", JSON.stringify(data));
-        console.log(data);
         const response = {};
 
         const successfulPullRequests = data.data.repository.successfulPullRequests.totalCount;
