@@ -173,7 +173,7 @@ issuesRouter.get('/issues/leadTime/:id', async (req, res) =>{
  *          -   in: path
  *              name: endDate
  *              schema:
- *                  type:string
+ *                  type: string
  *              required: true
  *              description: The date at which the issue was closed or merged
  *      responses:
