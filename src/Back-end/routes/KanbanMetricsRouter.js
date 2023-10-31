@@ -43,6 +43,7 @@ class KanbanMetricsRouterRouter{
       })
       .catch(error => {
           console.error("Error:", error.message);
+          console.log('lol2')
       });
       return issue;
   }
@@ -88,6 +89,7 @@ class KanbanMetricsRouterRouter{
         })
         .catch(error => {
             console.error("Error:", error.message);
+            console.log('lol1')
         });
         return issues;
     }

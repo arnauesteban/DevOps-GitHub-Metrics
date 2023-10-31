@@ -16,34 +16,46 @@
 
 
 -- Listage de la structure de la base pour githubmetrics
-DROP DATABASE IF EXISTS `githubmetrics`;
 CREATE DATABASE IF NOT EXISTS `githubmetrics` /*!40100 DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci */;
 USE `githubmetrics`;
 
+-- Listage de la structure de table githubmetrics. eventoxygencs
+CREATE TABLE IF NOT EXISTS `eventoxygencs` (
+  `Event` varchar(50) DEFAULT NULL,
+  `Timestamp` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- Les données exportées n'étaient pas sélectionnées.
+
+-- Listage de la structure de table githubmetrics. hvactemperature
+CREATE TABLE IF NOT EXISTS `hvactemperature` (
+  `Temperature` int(11) DEFAULT NULL,
+  `Timestamp` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- Les données exportées n'étaient pas sélectionnées.
+
 -- Listage de la structure de table githubmetrics. metricsissueslt
-DROP TABLE IF EXISTS `metricsissueslt`;
 CREATE TABLE IF NOT EXISTS `metricsissueslt` (
-  `issueID` int(11) DEFAULT NULL,
-  `TimeStamp` int(11) DEFAULT NULL,
-  `Description` int(11) DEFAULT NULL,
-  `LeadTime` int(11) DEFAULT NULL
+  `IssueID` int(11) DEFAULT NULL,
+  `Title` varchar(50) DEFAULT NULL,
+  `Timestamp` datetime DEFAULT NULL,
+  `LeadTime` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
--- Listage des données de la table githubmetrics.metricsissueslt : ~0 rows (environ)
+-- Les données exportées n'étaient pas sélectionnées.
 
--- Listage de la structure de table githubmetrics. metricsltpr
-DROP TABLE IF EXISTS `metricsltpr`;
-CREATE TABLE IF NOT EXISTS `metricsltpr` (
+-- Listage de la structure de table githubmetrics. metricsprlt
+CREATE TABLE IF NOT EXISTS `metricsprlt` (
   `PullRequestID` int(11) DEFAULT NULL,
+  `Title` varchar(50) DEFAULT NULL,
   `TimeStamp` datetime DEFAULT NULL,
-  `Description` int(11) DEFAULT NULL,
-  `LeadTime` int(11) DEFAULT NULL
+  `LeadTime` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
--- Listage des données de la table githubmetrics.metricsltpr : ~0 rows (environ)
+-- Les données exportées n'étaient pas sélectionnées.
 
 -- Listage de la structure de table githubmetrics. metricssnapshot
-DROP TABLE IF EXISTS `metricssnapshot`;
 CREATE TABLE IF NOT EXISTS `metricssnapshot` (
   `ProjectID` int(11) DEFAULT NULL,
   `Timestamp` datetime DEFAULT NULL,
@@ -54,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `metricssnapshot` (
   `Complété` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
--- Listage des données de la table githubmetrics.metricssnapshot : ~0 rows (environ)
+-- Les données exportées n'étaient pas sélectionnées.
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
