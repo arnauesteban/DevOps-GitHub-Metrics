@@ -1,16 +1,13 @@
-version: '3'
-volumes:
-  data:
+version: '3.7'
+
 services:
   db:
     image: mariadb
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: mydatabase
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: githubmetrics
     volumes:
-      - data:/var/lib/mysql
-      - ../core/Database:/docker-entrypoint-initdb.d
+      - ./db_data:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - 3306:3306
