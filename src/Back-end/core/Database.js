@@ -5,8 +5,8 @@ class Database {
         this.pool = mariadb.createPool({
             host:'localhost',
             user:'root',
-            password:'vl123456',
-            database:'githubMetrics'
+            password:'password',
+            database:'githubmetrics'
         });
     }
 }
