@@ -81,3 +81,7 @@ https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Choix_metr
 ## Tests et démonstration
 
 https://github.com/arnauesteban/labo-devops-g14-a23/blob/develop/docs/Choix_tests_demo.md
+
+## Build
+docker-compose up -d --> MariaDB build
+Dockerfile pour l'image de NodeJS
